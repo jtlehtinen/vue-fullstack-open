@@ -1,16 +1,16 @@
 import express from 'express'
-import { nanoid } from 'nanoid'
-import db from '../db.js'
+import { Person } from '../models/index.js'
 
 export const router = express.Router()
 
-router.get('/', (_, res) => {
-  res.json(db.persons)
+router.get('/', async (_, res) => {
+  const persons = await Person.find({})
+  res.json(persons)
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const id = req.params.id
-  const person = db.persons.find(p => p.id === id)
+  const person = await Person.findById(id)
 
   if (person) {
     res.json(person)
@@ -19,7 +19,7 @@ router.get('/:id', (req, res) => {
   }
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const name = req.body?.name
   const number = req.body?.number
 
@@ -36,17 +36,14 @@ router.post('/', (req, res) => {
     return
   }
 
-  const id = nanoid()
-  const newPerson = { id, name, number }
+  const createdPerson = await Person.create({ name, number })
 
-  db.persons = [...db.persons, newPerson]
-
-  res.status(201).json(newPerson)
+  res.status(201).json(createdPerson)
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   const id = req.params.id
-  db.persons = db.persons.filter(p => p.id !== id)
+  await Person.findByIdAndDelete(id)
 
   res.status(204).end()
 })

@@ -1,9 +1,11 @@
 import express from 'express'
-import db from '../db.js'
+import { Person } from '../models/index.js'
 
 export const router = express.Router()
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+  const personCount = await Person.countDocuments()
+
   const body = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +14,7 @@ router.get('/', (req, res) => {
   <title>Phonebook - info</title>
 </head>
 <body>
-  <p>Phonebook has info for ${db.persons.length} people</p>
+  <p>Phonebook has info for ${personCount} people</p>
   </p>${new Date()}</p>
 </body>
 </html>`

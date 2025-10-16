@@ -19,15 +19,18 @@ importers:
 
   phonebook-backend:
     dependencies:
+      dotenv:
+        specifier: ^17.2.3
+        version: 17.2.3
       express:
         specifier: ^5.1.0
         version: 5.1.0
+      mongoose:
+        specifier: ^8.19.1
+        version: 8.19.1
       morgan:
         specifier: ^1.10.1
         version: 1.10.1
-      nanoid:
-        specifier: ^5.1.6
-        version: 5.1.6
 
   phonebook-frontend:
     dependencies:
