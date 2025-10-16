@@ -13,5 +13,11 @@ const total = computed(() => {
 </script>
 
 <template>
-  <p>Number of exercises {{ total }}</p>
+  <p class="font-bold">Total of {{ total }} exercises</p>
 </template>
+
+<style scoped>
+.font-bold {
+  font-weight: bold;
+}
+</style>
