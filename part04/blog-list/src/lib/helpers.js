@@ -36,3 +36,23 @@ export function mostBlogs(blogs) {
 
   return { author: maxAuthor, blogs: maxBlogs }
 }
+
+export function mostLikes(blogs) {
+  if (blogs.length === 0) return undefined
+
+  const authorToLikesCount = new Map()
+  let maxAuthor = ''
+  let maxLikes = -1
+
+  for (const blog of blogs) {
+    const newLikes = (authorToLikesCount.get(blog.author) || 0) + blog.likes
+    authorToLikesCount.set(blog.author, newLikes)
+
+    if (newLikes > maxLikes) {
+      maxLikes = newLikes
+      maxAuthor = blog.author
+    }
+  }
+
+  return { author: maxAuthor, likes: maxLikes }
+}

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { dummy, favoriteBlog, mostBlogs, totalLikes } from './helpers.js'
+import { dummy, favoriteBlog, mostBlogs, mostLikes, totalLikes } from './helpers.js'
 
 const listWithOneBlog = [
   {
@@ -82,6 +82,11 @@ describe('total likes', () => {
 })
 
 describe('favorite blog', () => {
+  test('when list is empty, returns undefined', () => {
+    const result = favoriteBlog([])
+    expect(result).toBeUndefined()
+  })
+
   test('when list has only one blog, returns that blog', () => {
     const result = favoriteBlog(listWithOneBlog)
     expect(result).toEqual(listWithOneBlog[0])
@@ -90,11 +95,6 @@ describe('favorite blog', () => {
   test('when list has multiple blogs, returns the one with most likes', () => {
     const result = favoriteBlog(listWithMultipleBlogs)
     expect(result).toEqual(listWithMultipleBlogs[2])
-  })
-
-  test('when list is empty, returns undefined', () => {
-    const result = favoriteBlog([])
-    expect(result).toBeUndefined()
   })
 })
 
@@ -112,5 +112,22 @@ describe('most blogs', () => {
   test('when list has multiple blogs, returns the author with most blogs', () => {
     const result = mostBlogs(listWithMultipleBlogs)
     expect(result).toEqual({ author: 'Robert C. Martin', blogs: 3 })
+  })
+})
+
+describe('most likes', () => {
+  test('when list is empty, returns undefined', () => {
+    const result = mostLikes([])
+    expect(result).toBeUndefined()
+  })
+
+  test('when list has only one blog, returns the author of that blog with the likes count', () => {
+    const result = mostLikes(listWithOneBlog)
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 5 })
+  })
+
+  test('when list has multiple blogs, returns the author with most likes', () => {
+    const result = mostLikes(listWithMultipleBlogs)
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 17 })
   })
 })
