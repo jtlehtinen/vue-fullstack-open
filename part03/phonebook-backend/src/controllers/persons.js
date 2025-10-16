@@ -27,6 +27,10 @@ router.post('/', (req, res) => {
   if (!name) errors.push('name is required')
   if (!number) errors.push('number is required')
 
+  if (db.persons.find(p => p.name.localeCompare(name, undefined, { sensitivity: 'base' }) === 0)) {
+    errors.push('name must be unique')
+  }
+
   if (errors.length > 0) {
     res.status(400).json({ errors })
     return
