@@ -1,6 +1,8 @@
 <script setup>
+import WeatherDetails from './weather-details.vue'
+
 defineProps({
-  country: Object
+  country: { type: Object, required: true }
 })
 </script>
 
@@ -22,7 +24,18 @@ defineProps({
       </ul>
     </div>
 
-    <img :src="country.flags.png" :alt="country.flags.alt" />
+    <img
+      :src="country.flags.png"
+      :alt="country.flags.alt"
+      width="256"
+    />
+
+    <WeatherDetails
+      v-if="country.capitalInfo?.latlng"
+      :capital="country.capital?.[0] ?? ''"
+      :lat="country.capitalInfo.latlng[0]"
+      :lon="country.capitalInfo.latlng[1]"
+    />
   </section>
 </template>
 

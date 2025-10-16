@@ -1,6 +1,6 @@
 <script setup>
 defineProps({
-  countries: Array
+  countries: { type: Array, required: true }
 })
 
 const emit = defineEmits({
