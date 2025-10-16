@@ -1,8 +1,19 @@
 import express from 'express'
-import { persons } from '../db.js'
+import db from '../db.js'
 
 export const router = express.Router()
 
 router.get('/', (_, res) => {
-  res.json(persons)
+  res.json(db.persons)
+})
+
+router.get('/:id', (req, res) => {
+  const id = req.params.id
+  const person = db.persons.find((p) => p.id === id)
+
+  if (person) {
+    res.json(person)
+  } else {
+    res.status(404).end()
+  }
 })
