@@ -1,11 +1,17 @@
 <script setup lang="ts">
-defineProps({
-  exercises1: Number,
-  exercises2: Number,
-  exercises3: Number
+import { computed } from 'vue'
+
+const props = defineProps({
+  part1: Object,
+  part2: Object,
+  part3: Object,
+})
+
+const total = computed(() => {
+  return props.part1.exercises + props.part2.exercises + props.part3.exercises
 })
 </script>
 
 <template>
-  <p>Number of exercises {{ exercises1 + exercises2 + exercises3 }}</p>
+  <p>Number of exercises {{ total }}</p>
 </template>

@@ -1,10 +1,9 @@
 <script setup>
 defineProps({
-  part: String,
-  exercises: Number
+  part: Object,
 })
 </script>
 
 <template>
-  <li>{{ part }} {{ exercises }}</li>
+  <li>{{ part.name }} {{ part.exercises }}</li>
 </template>
