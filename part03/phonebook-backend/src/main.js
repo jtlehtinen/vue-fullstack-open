@@ -6,6 +6,7 @@ const app = express()
 
 app.disable('x-powered-by')
 
+app.use(express.static('dist/public'))
 app.use(express.json())
 
 morgan.token('body', (req) => JSON.stringify(req.body))

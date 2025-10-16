@@ -1,0 +1,10 @@
+{
+  "name": "only-for-railway",
+  "type": "module",
+  "scripts": {
+    "dev:frontend": "pnpm --filter phonebook-frontend dev",
+    "dev:backend": "pnpm --filter phonebook-backend dev",
+    "start:backend": "pnpm --filter phonebook-backend start",
+    "build": "pnpm --filter phonebook-frontend build"
+  }
+}

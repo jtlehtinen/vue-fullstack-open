@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch src/main.js",
-    "start": "node src/main.js"
+    "start": "node src/main.js",
+    "build:frontend": "cd ../phonebook-frontend && pnpm run build"
   },
   "dependencies": {
     "express": "^5.1.0",

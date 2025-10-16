@@ -4,6 +4,10 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
+  build: {
+    outDir: '../phonebook-backend/dist/public',
+    emptyOutDir: true,
+  },
   plugins: [
     vue(),
     vueDevTools(),
