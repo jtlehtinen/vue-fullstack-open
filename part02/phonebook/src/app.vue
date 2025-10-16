@@ -3,9 +3,11 @@ import { nanoid } from 'nanoid'
 import { ref } from 'vue'
 
 const name = ref('')
+const number = ref('')
 
 const persons = ref([
-  { id: nanoid(), name: 'Juha Lehtinen' },
+  { id: nanoid(), name: 'Juha Lehtinen', number: '040-1234567' },
+  { id: nanoid(), name: 'Pekka Mikkola', number: '050-7654321' },
 ])
 
 /**
@@ -19,9 +21,15 @@ function personExists(name) {
 
 function handleSubmitPersonForm() {
   const nameValue = name.value.trim()
+  const numberValue = number.value.trim()
 
   if (!nameValue) {
     alert('Name cannot be empty')
+    return
+  }
+
+  if (!numberValue) {
+    alert('Number cannot be empty')
     return
   }
 
@@ -32,10 +40,11 @@ function handleSubmitPersonForm() {
 
   persons.value = [
     ...persons.value,
-    { id: nanoid(), name: nameValue },
+    { id: nanoid(), name: nameValue, number: numberValue },
   ]
 
   name.value = ''
+  number.value = ''
 }
 </script>
 
@@ -48,19 +57,26 @@ function handleSubmitPersonForm() {
         <label>
           Name:
           <input
-            id="name-input"
             v-model="name"
           />
         </label>
-        <button type="submit">Add</button>
       </div>
+      <div>
+        <label>
+          Number:
+          <input
+            v-model="number"
+          />
+        </label>
+      </div>
+      <button type="submit">Add</button>
     </form>
 
     <section>
       <h2>Numbers</h2>
       <ul>
         <li v-for="person of persons" :key="person.id">
-          {{ person.name }}
+          {{ person.name }} {{ person.number }}
         </li>
       </ul>
     </section>
@@ -68,6 +84,13 @@ function handleSubmitPersonForm() {
 </template>
 
 <style scoped>
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+
 main {
   max-width: 720px;
   margin: 0 auto;
@@ -76,9 +99,5 @@ main {
 ul {
   list-style: none;
   padding: 0;
-}
-
-button {
-  margin-left: 0.5rem;
 }
 </style>
