@@ -11,9 +11,6 @@ importers:
       axios:
         specifier: ^1.12.2
         version: 1.12.2
-      nanoid:
-        specifier: ^5.1.6
-        version: 5.1.6
       vue:
         specifier: ^3.5.22
         version: 3.5.22

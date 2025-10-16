@@ -32,7 +32,7 @@ function personExists(name) {
   )
 }
 
-function handleSubmitPersonForm() {
+async function handleSubmitPersonForm() {
   const nameValue = name.value.trim()
   const numberValue = number.value.trim()
 
@@ -51,10 +51,12 @@ function handleSubmitPersonForm() {
     return
   }
 
-  persons.value = [
-    ...persons.value,
-    { id: nanoid(), name: nameValue, number: numberValue },
-  ]
+  const createdPerson = await personService.create({
+    name: nameValue,
+    number: numberValue,
+  })
+
+  persons.value = [...persons.value, createdPerson]
 
   name.value = ''
   number.value = ''
