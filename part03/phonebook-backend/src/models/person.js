@@ -4,7 +4,7 @@ const personSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'name is required'],
-    minlength: [1, 'name must not be blank'],
+    minlength: [3, 'name must be at least 3 characters long'],
     unique: true,
     trim: true
   },

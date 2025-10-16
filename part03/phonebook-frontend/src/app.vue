@@ -68,9 +68,14 @@ async function handleSubmitPersonForm(person) {
 }
 
 async function handleCreatePerson(person) {
-  const createdPerson = await personService.create(person)
-  persons.value = [...persons.value, createdPerson]
-  showSuccess(`Added ${createdPerson.name}`)
+  try {
+    const createdPerson = await personService.create(person)
+    persons.value = [...persons.value, createdPerson]
+    showSuccess(`Added ${createdPerson.name}`)
+  } catch (error) {
+    const message = error.response?.data?.error || 'An unexpected error occurred'
+    showError(message)
+  }
 }
 
 async function handleUpdatePerson(person) {
