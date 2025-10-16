@@ -12,7 +12,7 @@ const number = ref('')
 const search = ref('')
 const persons = ref([])
 
-const { notification, success: showSuccess } = useNotification()
+const { notification, success: showSuccess, error: showError } = useNotification()
 
 const personsToShow = computed(() => {
   const searchValue = search.value.trim().toLowerCase()
@@ -83,9 +83,16 @@ async function handleDeletePerson(person) {
     return
   }
 
-  await personService.delete(person.id)
 
-  persons.value = persons.value.filter((p) => p.id !== person.id)
+  try {
+    await personService.delete(person.id)
+    persons.value = persons.value.filter((p) => p.id !== person.id)
+  } catch (error) {
+    if (error.status === 404) {
+      showError(`Information of ${person.name} has already been removed from the server`)
+      persons.value = persons.value.filter((p) => p.id !== person.id)
+    }
+  }
 }
 
 onBeforeMount(async () => {
