@@ -1,4 +1,5 @@
 import express from 'express'
+import morgan from 'morgan'
 import { infoRouter, personsRouter } from './controllers/index.js'
 
 const app = express()
@@ -6,6 +7,7 @@ const app = express()
 app.disable('x-powered-by')
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 app.use('/info', infoRouter)
 app.use('/api/persons', personsRouter)
