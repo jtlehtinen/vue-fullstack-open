@@ -1,4 +1,6 @@
 <script setup>
+import CourseContentPart from './course-content-part.vue'
+
 defineProps({
   part1: String,
   part2: String,
@@ -10,7 +12,16 @@ defineProps({
 </script>
 
 <template>
-  <p>{{ part1 }} {{ exercises1 }}</p>
-  <p>{{ part2 }} {{ exercises2 }}</p>
-  <p>{{ part3 }} {{ exercises3 }}</p>
+  <ul>
+    <CourseContentPart :part="part1" :exercises="exercises1" />
+    <CourseContentPart :part="part2" :exercises="exercises2" />
+    <CourseContentPart :part="part3" :exercises="exercises3" />
+  </ul>
 </template>
+
+<style scoped>
+ul {
+  list-style: none;
+  padding: 0;
+}
+</style>
