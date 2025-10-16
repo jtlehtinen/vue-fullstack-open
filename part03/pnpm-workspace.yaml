@@ -1,3 +1,4 @@
 packages:
   - phonebook-backend
   - phonebook-frontend
+  - mongo-cli
