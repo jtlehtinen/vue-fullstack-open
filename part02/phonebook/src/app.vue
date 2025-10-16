@@ -1,14 +1,31 @@
 <script setup>
 import { nanoid } from 'nanoid'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const name = ref('')
 const number = ref('')
+const search = ref('')
 
 const persons = ref([
   { id: nanoid(), name: 'Juha Lehtinen', number: '040-1234567' },
   { id: nanoid(), name: 'Pekka Mikkola', number: '050-7654321' },
+  { id: nanoid(), name: 'Arto Hellas', number: '040-123456' },
+  { id: nanoid(), name: 'Ada Lovelace', number: '39-44-5323523' },
+  { id: nanoid(), name: 'Dan Abramov', number: '12-43-234345' },
+  { id: nanoid(), name: 'Mary Poppendieck', number: '39-23-6423122' }
 ])
+
+const personsToShow = computed(() => {
+  const searchValue = search.value.trim().toLowerCase()
+
+  if (!searchValue) {
+    return persons.value
+  }
+
+  return persons.value.filter((person) =>
+    person.name.toLowerCase().includes(searchValue),
+  )
+})
 
 /**
  * @param {string} name
@@ -52,30 +69,37 @@ function handleSubmitPersonForm() {
   <main>
     <h1>Phonebook</h1>
 
-    <form @submit.prevent="handleSubmitPersonForm">
-      <div>
-        <label>
-          Name:
-          <input
-            v-model="name"
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Number:
-          <input
-            v-model="number"
-          />
-        </label>
-      </div>
-      <button type="submit">Add</button>
-    </form>
+    <section>
+      <label>
+        Filter shown with:
+        <input v-model="search" />
+      </label>
+    </section>
+
+
+    <section>
+      <h2>Add a new</h2>
+      <form @submit.prevent="handleSubmitPersonForm">
+        <div>
+          <label>
+            Name:
+            <input v-model="name" />
+          </label>
+        </div>
+        <div>
+          <label>
+            Number:
+            <input v-model="number" />
+          </label>
+        </div>
+        <button type="submit">Add</button>
+      </form>
+    </section>
 
     <section>
       <h2>Numbers</h2>
       <ul>
-        <li v-for="person of persons" :key="person.id">
+        <li v-for="person of personsToShow" :key="person.id">
           {{ person.name }} {{ person.number }}
         </li>
       </ul>
