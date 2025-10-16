@@ -1,14 +1,15 @@
 <script setup>
 import { nanoid } from 'nanoid'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import PersonFilter from './components/person-filter.vue'
 import PersonForm from './components/person-form.vue'
 import PersonList from './components/person-list.vue'
-import { persons } from './store.js'
+import personService from './services/person'
 
 const name = ref('')
 const number = ref('')
 const search = ref('')
+const persons = ref([])
 
 const personsToShow = computed(() => {
   const searchValue = search.value.trim().toLowerCase()
@@ -58,6 +59,10 @@ function handleSubmitPersonForm() {
   name.value = ''
   number.value = ''
 }
+
+onBeforeMount(async () => {
+  persons.value = await personService.list()
+})
 </script>
 
 <template>
