@@ -1,4 +1,5 @@
 import express from 'express'
+import { nanoid } from 'nanoid'
 import db from '../db.js'
 
 export const router = express.Router()
@@ -16,6 +17,27 @@ router.get('/:id', (req, res) => {
   } else {
     res.status(404).end()
   }
+})
+
+router.post('/', (req, res) => {
+  const name = req.body?.name
+  const number = req.body?.number
+
+  const errors = []
+  if (!name) errors.push('name is required')
+  if (!number) errors.push('number is required')
+
+  if (errors.length > 0) {
+    res.status(400).json({ errors })
+    return
+  }
+
+  const id = nanoid()
+  const newPerson = { id, name, number }
+
+  db.persons = [...db.persons, newPerson]
+
+  res.status(201).json(newPerson)
 })
 
 router.delete('/:id', (req, res) => {
