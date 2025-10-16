@@ -1,9 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const good = ref(0)
 const neutral = ref(0)
 const bad = ref(0)
+
+const all = computed(() => good.value + neutral.value + bad.value)
+const average = computed(() => (good.value - bad.value) / all.value || 0)
+const positive = computed(() => (good.value / all.value) * 100 || 0)
 </script>
 
 <template>
@@ -20,11 +24,16 @@ const bad = ref(0)
     </button>
 
     <h2>Statistics</h2>
-    <ul>
-      <li>Good {{ good }}</li>
-      <li>Neutral {{ neutral }}</li>
-      <li>Bad {{ bad }}</li>
-    </ul>
+    <table>
+      <tbody>
+        <tr><td>Good</td><td>{{ good }}</td></tr>
+        <tr><td>Neutral</td><td>{{ neutral }}</td></tr>
+        <tr><td>Bad</td><td>{{ bad }}</td></tr>
+        <tr><td>All</td><td>{{ all }}</td></tr>
+        <tr><td>Average</td><td>{{ average.toFixed(1) }}</td></tr>
+        <tr><td>Positive</td><td>{{ positive.toFixed(1) }} %</td></tr>
+      </tbody>
+    </table>
   </main>
 </template>
 
