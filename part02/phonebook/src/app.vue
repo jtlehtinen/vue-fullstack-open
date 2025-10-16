@@ -8,11 +8,25 @@ const persons = ref([
   { id: nanoid(), name: 'Juha Lehtinen' },
 ])
 
+/**
+ * @param {string} name
+ */
+function personExists(name) {
+  return persons.value.some(
+    (person) => person.name.localeCompare(name, undefined, { sensitivity: 'base' }) === 0,
+  )
+}
+
 function handleSubmitPersonForm() {
   const nameValue = name.value.trim()
 
   if (!nameValue) {
-    alert('name is required')
+    alert('Name cannot be empty')
+    return
+  }
+
+  if (personExists(nameValue)) {
+    alert(`${nameValue} is already added to phonebook`)
     return
   }
 
