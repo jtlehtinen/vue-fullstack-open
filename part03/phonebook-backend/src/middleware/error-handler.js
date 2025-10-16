@@ -9,7 +9,7 @@ export function errorHandler(error, request, response, next) {
     response.status(400).send({ error: 'malformatted id' })
     return
   case 'MongoServerError':
-    if (error.code === 11000) {
+    if (error.code === 11000 && error.keyPattern?.name) {
       response.status(400).json({ error: 'name must be unique' })
       return
     }
