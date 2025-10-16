@@ -1,0 +1,11 @@
+{
+  "name": "phonebook-backend",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/main.js",
+    "start": "node src/main.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
