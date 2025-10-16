@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { dummy, totalLikes } from './helpers.js'
+import { dummy, favoriteBlog, totalLikes } from './helpers.js'
 
 const listWithOneBlog = [
   {
@@ -78,5 +78,22 @@ describe('total likes', () => {
   test('when list has multiple blogs, equals the sum of all', () => {
     const result = totalLikes(listWithMultipleBlogs)
     expect(result).toBe(36)
+  })
+})
+
+describe('favorite blog', () => {
+  test('when list has only one blog, returns that blog', () => {
+    const result = favoriteBlog(listWithOneBlog)
+    expect(result).toEqual(listWithOneBlog[0])
+  })
+
+  test('when list has multiple blogs, returns the one with most likes', () => {
+    const result = favoriteBlog(listWithMultipleBlogs)
+    expect(result).toEqual(listWithMultipleBlogs[2])
+  })
+
+  test('when list is empty, returns undefined', () => {
+    const result = favoriteBlog([])
+    expect(result).toBeUndefined()
   })
 })
