@@ -16,8 +16,14 @@ export async function deletePerson(id) {
   return await axios.delete(`${BASE_URL}/${id}`)
 }
 
+export async function updatePerson(person) {
+  const response = await axios.put(`${BASE_URL}/${person.id}`, person)
+  return response.data
+}
+
 export default {
   create: createPerson,
   delete: deletePerson,
-  list: listPersons
+  list: listPersons,
+  update: updatePerson,
 }

@@ -32,38 +32,50 @@ function personExists(name) {
   )
 }
 
-async function handleSubmitPersonForm() {
-  const nameValue = name.value.trim()
-  const numberValue = number.value.trim()
+async function handleSubmitPersonForm(person) {
+  const nameValue = person.name.trim()
+  const numberValue = person.number.trim()
 
   if (!nameValue) {
-    alert('Name cannot be empty')
+    window.alert('Name cannot be empty')
     return
   }
 
   if (!numberValue) {
-    alert('Number cannot be empty')
+    window.alert('Number cannot be empty')
     return
   }
 
   if (personExists(nameValue)) {
-    alert(`${nameValue} is already added to phonebook`)
-    return
+    if (!window.confirm(`${person.name} is already added to the phonebook, replace the old number with a new one?`)) {
+      return
+    }
+
+    await handleUpdatePerson({
+      ...persons.value.find((p) => p.name === nameValue),
+      number: numberValue,
+    })
+  } else {
+    await handleCreatePerson(person)
   }
 
-  const createdPerson = await personService.create({
-    name: nameValue,
-    number: numberValue,
-  })
-
-  persons.value = [...persons.value, createdPerson]
 
   name.value = ''
   number.value = ''
 }
 
+async function handleCreatePerson(person) {
+  const createdPerson = await personService.create(person)
+  persons.value = [...persons.value, createdPerson]
+}
+
+async function handleUpdatePerson(person) {
+  const updatedPerson = await personService.update(person)
+  persons.value = persons.value.map((p) => (p.id === updatedPerson.id ? updatedPerson : p))
+}
+
 async function handleDeletePerson(person) {
-  if (!confirm(`Delete ${person.name}?`)) {
+  if (!window.confirm(`Delete ${person.name}?`)) {
     return
   }
 
