@@ -93,3 +93,43 @@ sequenceDiagram
 
   Note right of browser: Client-side JavaScript renders notes
 ```
+
+## 0.6: New note in single-page app diagram
+
+User opens https://studies.cs.helsinki.fi/exampleapp/spa, creates a new note and submits it.
+
+```mermaid
+sequenceDiagram
+  participant browser
+  participant server
+
+  browser->>server: GET /exampleapp/spa
+  activate server
+  server-->>browser: HTML document
+  deactivate server
+
+  browser->>server: GET /exampleapp/main.css
+  activate server
+  server-->>browser: CSS file
+  deactivate server
+
+  browser->>server: GET /exampleapp/spa.js
+  activate server
+  server-->>browser: JavaScript file
+  deactivate server
+
+  browser->>server: GET /exampleapp/data.json
+  activate server
+  server-->>browser: Notes JSON
+  deactivate server
+
+  Note right of browser: Client-side JavaScript renders notes
+  Note right of browser: User submits new note via form
+
+  browser->>server: POST /exampleapp/new_note_spa (JSON: note content & date)
+  activate server
+  server-->>browser: 201 Created (JSON: {"message":"note created"})
+  deactivate server
+
+  Note right of browser: Client-side JavaScript updates notes list without page reload
+```
