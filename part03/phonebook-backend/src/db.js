@@ -30,3 +30,7 @@ export const persons = [
     number: '39-23-6423122'
   }
 ]
+
+export default {
+  persons
+}

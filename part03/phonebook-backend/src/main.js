@@ -1,5 +1,5 @@
 import express from 'express'
-import { personsRouter } from './controllers/index.js'
+import { infoRouter, personsRouter } from './controllers/index.js'
 
 const PORT = 3001
 
@@ -9,6 +9,7 @@ app.disable('x-powered-by')
 
 app.use(express.json())
 
+app.use('/info', infoRouter)
 app.use('/api/persons', personsRouter)
 
 app.use((request, response) => {
