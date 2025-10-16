@@ -20,6 +20,10 @@ const countriesToShow = computed(() => {
   )
 })
 
+function handleSelectCountry(country) {
+  filter.value = country.name.common
+}
+
 onBeforeMount(async () => {
   countries.value = await countryService.list()
 })
@@ -32,7 +36,11 @@ onBeforeMount(async () => {
     <CountryFilter v-model="filter" />
 
     <CountryTooMany v-if="countriesToShow.length > 10" />
-    <CountryList v-else-if="countriesToShow.length > 1" :countries="countriesToShow" />
+    <CountryList
+      v-else-if="countriesToShow.length > 1"
+      :countries="countriesToShow"
+      @select="handleSelectCountry"
+    />
     <CountryDetails
       v-else-if="countriesToShow.length === 1"
       :country="countriesToShow[0]"
