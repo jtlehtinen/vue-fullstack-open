@@ -3,6 +3,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import morgan from 'morgan'
 import { infoRouter, personsRouter } from './controllers/index.js'
+import { errorHandler } from './middleware/index.js'
 
 dotenv.config({ quiet: true })
 
@@ -37,7 +38,9 @@ async function run() {
 
     app.use('/info', infoRouter)
     app.use('/api/persons', personsRouter)
+
     app.use((req, res) => res.status(404).json({ error: 'Not found', status: 404 }))
+    app.use(errorHandler)
 
     const server = app.listen(PORT, () => {
       console.log(`server is running on port ${PORT}`)
