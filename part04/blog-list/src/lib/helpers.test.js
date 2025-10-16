@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { dummy, favoriteBlog, totalLikes } from './helpers.js'
+import { dummy, favoriteBlog, mostBlogs, totalLikes } from './helpers.js'
 
 const listWithOneBlog = [
   {
@@ -95,5 +95,22 @@ describe('favorite blog', () => {
   test('when list is empty, returns undefined', () => {
     const result = favoriteBlog([])
     expect(result).toBeUndefined()
+  })
+})
+
+describe('most blogs', () => {
+  test('when list is empty, returns undefined', () => {
+    const result = mostBlogs([])
+    expect(result).toBeUndefined()
+  })
+
+  test('when list has only one blog, returns the author of that blog with count 1', () => {
+    const result = mostBlogs(listWithOneBlog)
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', blogs: 1 })
+  })
+
+  test('when list has multiple blogs, returns the author with most blogs', () => {
+    const result = mostBlogs(listWithMultipleBlogs)
+    expect(result).toEqual({ author: 'Robert C. Martin', blogs: 3 })
   })
 })

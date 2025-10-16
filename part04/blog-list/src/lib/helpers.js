@@ -16,3 +16,23 @@ export function favoriteBlog(blogs) {
   return blogs
     .reduce((fav, blog) => (blog.likes > fav.likes ? blog : fav))
 }
+
+export function mostBlogs(blogs) {
+  if (blogs.length === 0) return undefined
+
+  const authorToBlogCount = new Map()
+  let maxAuthor = ''
+  let maxBlogs = 0
+
+  for (const blog of blogs) {
+    const newCount = (authorToBlogCount.get(blog.author) || 0) + 1
+    authorToBlogCount.set(blog.author, newCount)
+
+    if (newCount > maxBlogs) {
+      maxBlogs = newCount
+      maxAuthor = blog.author
+    }
+  }
+
+  return { author: maxAuthor, blogs: maxBlogs }
+}
