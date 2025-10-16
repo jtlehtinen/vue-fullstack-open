@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps({
-  course: String
+  course: { type: String, required: true }
 })
 </script>
 

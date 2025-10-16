@@ -1,14 +1,14 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 
 const props = defineProps({
-  part1: Object,
-  part2: Object,
-  part3: Object,
+  parts: { type: Array, required: true }
 })
 
 const total = computed(() => {
-  return props.part1.exercises + props.part2.exercises + props.part3.exercises
+  const [part1, part2, part3] = props.parts
+
+  return part1.exercises + part2.exercises + part3.exercises
 })
 </script>
 
