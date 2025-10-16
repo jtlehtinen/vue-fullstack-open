@@ -1,15 +1,18 @@
 <script setup>
-import { nanoid } from 'nanoid'
 import { computed, onBeforeMount, ref } from 'vue'
+import Notification from './components/notification.vue'
 import PersonFilter from './components/person-filter.vue'
 import PersonForm from './components/person-form.vue'
 import PersonList from './components/person-list.vue'
+import { useNotification } from './composables/use-notification'
 import personService from './services/person'
 
 const name = ref('')
 const number = ref('')
 const search = ref('')
 const persons = ref([])
+
+const { notification, success: showSuccess } = useNotification()
 
 const personsToShow = computed(() => {
   const searchValue = search.value.trim().toLowerCase()
@@ -67,6 +70,7 @@ async function handleSubmitPersonForm(person) {
 async function handleCreatePerson(person) {
   const createdPerson = await personService.create(person)
   persons.value = [...persons.value, createdPerson]
+  showSuccess(`Added ${createdPerson.name}`)
 }
 
 async function handleUpdatePerson(person) {
@@ -92,6 +96,8 @@ onBeforeMount(async () => {
 <template>
   <main>
     <h1>Phonebook</h1>
+
+    <Notification v-if="notification" class="notification" :message="notification.message" :type="notification.type" />
 
     <section>
       <PersonFilter v-model="search" />
@@ -122,5 +128,9 @@ onBeforeMount(async () => {
 main {
   max-width: 720px;
   margin: 0 auto;
+}
+
+.notification {
+  margin-bottom: 1rem;
 }
 </style>
