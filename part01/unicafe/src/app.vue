@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import Button from './components/button.vue'
 import StatisticsTable from './components/statistics-table.vue'
 
 const good = ref(0)
@@ -10,15 +11,15 @@ const bad = ref(0)
 <template>
   <main>
     <h2>Give feedback</h2>
-    <button @click="bad++">
+    <Button @click="bad++">
       Bad
-    </button>
-    <button @click="neutral++">
+    </Button>
+    <Button @click="neutral++">
       Neutral
-    </button>
-    <button @click="good++">
+    </Button>
+    <Button @click="good++">
       Good
-    </button>
+    </Button>
 
     <h2>Statistics</h2>
     <StatisticsTable
