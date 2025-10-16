@@ -2,15 +2,15 @@
 import CourseContentPart from './course-content-part.vue'
 
 defineProps({
-  parts: { type: Array, required: true }
+  course: { type: Object, required: true }
 })
 </script>
 
 <template>
   <ul>
-    <CourseContentPart :part="parts[0]" />
-    <CourseContentPart :part="parts[1]" />
-    <CourseContentPart :part="parts[2]" />
+    <CourseContentPart :part="course.parts[0]" />
+    <CourseContentPart :part="course.parts[1]" />
+    <CourseContentPart :part="course.parts[2]" />
   </ul>
 </template>
 

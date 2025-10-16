@@ -1,9 +1,9 @@
 <script setup lang="ts">
 defineProps({
-  course: { type: String, required: true }
+  course: { type: Object, required: true }
 })
 </script>
 
 <template>
-  <h2 class="text-heading-32">{{ course }}</h2>
+  <h2 class="text-heading-32">{{ course.name }}</h2>
 </template>
