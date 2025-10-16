@@ -3,7 +3,7 @@ import db from '../db.js'
 
 export const router = express.Router()
 
-router.get('/', (request, response) => {
+router.get('/', (req, res) => {
   const body = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +17,6 @@ router.get('/', (request, response) => {
 </body>
 </html>`
 
-  response.type('html')
-  response.send(body)
+  res.type('html')
+  res.send(body)
 })
