@@ -12,7 +12,12 @@ export async function listPersons() {
   return response.data
 }
 
+export async function deletePerson(id) {
+  return await axios.delete(`${BASE_URL}/${id}`)
+}
+
 export default {
   create: createPerson,
+  delete: deletePerson,
   list: listPersons
 }

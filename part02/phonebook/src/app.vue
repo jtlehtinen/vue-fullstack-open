@@ -62,6 +62,16 @@ async function handleSubmitPersonForm() {
   number.value = ''
 }
 
+async function handleDeletePerson(person) {
+  if (!confirm(`Delete ${person.name}?`)) {
+    return
+  }
+
+  await personService.delete(person.id)
+
+  persons.value = persons.value.filter((p) => p.id !== person.id)
+}
+
 onBeforeMount(async () => {
   persons.value = await personService.list()
 })
@@ -88,7 +98,10 @@ onBeforeMount(async () => {
 
     <section>
       <h2>Numbers</h2>
-      <PersonList :persons="personsToShow" />
+      <PersonList
+        :persons="personsToShow"
+        @delete-person="handleDeletePerson"
+      />
     </section>
   </main>
 </template>
