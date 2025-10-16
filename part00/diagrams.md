@@ -61,3 +61,35 @@ sequenceDiagram
   server-->>browser: Updated notes JSON
   deactivate server
 ```
+
+## 0.5: Single-page app diagram
+
+User opens https://studies.cs.helsinki.fi/exampleapp/spa.
+
+```mermaid
+sequenceDiagram
+  participant browser
+  participant server
+
+  browser->>server: GET /exampleapp/spa
+  activate server
+  server-->>browser: HTML document
+  deactivate server
+
+  browser->>server: GET /exampleapp/main.css
+  activate server
+  server-->>browser: CSS file
+  deactivate server
+
+  browser->>server: GET /exampleapp/spa.js
+  activate server
+  server-->>browser: JavaScript file
+  deactivate server
+
+  browser->>server: GET /exampleapp/data.json
+  activate server
+  server-->>browser: Notes JSON
+  deactivate server
+
+  Note right of browser: Client-side JavaScript renders notes
+```
