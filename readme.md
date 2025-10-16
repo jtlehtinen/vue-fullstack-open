@@ -1,6 +1,6 @@
 # vue-fullstack-open
 
-[Full Stack open](https://fullstackopen.com/en/) implemented in Vue.
+[Full Stack open](https://fullstackopen.com/en/) implemented in Vue. For no particular reason.
 
 ## Prerequisites
 

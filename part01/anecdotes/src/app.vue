@@ -1,10 +1,23 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { anecdotes } from './anecdotes'
+import Anecdote from './components/anecdote.vue'
 import { getRandomInt } from './lib/random'
 
 const selected = ref(0)
 const votes = ref(new Array(anecdotes.length).fill(0))
+
+const mostVoted = computed(() => {
+  let idx = 0
+
+  for (let i = 1; i < votes.value.length; ++i) {
+    if (votes.value[i] > votes.value[idx]) {
+      idx = i
+    }
+  }
+
+  return idx
+})
 
 function nextAnecdote() {
   if (anecdotes.length <= 1) {
@@ -32,11 +45,18 @@ function voteAnecdote(index) {
 
 <template>
   <main>
+    <h1>Anecdotes</h1>
+
     <section>
-      <p>{{ anecdotes[selected] }}</p>
-      <p>Has {{ votes[selected] }} votes</p>
+      <h2>Anecdote of the day</h2>
+      <Anecdote :text="anecdotes[selected]" :votes="votes[selected]" />
       <button @click="voteAnecdote(selected)">Vote</button>
       <button @click="nextAnecdote">Next</button>
+    </section>
+
+    <section>
+      <h2>Most voted anecdote</h2>
+      <Anecdote :text="anecdotes[mostVoted]" :votes="votes[mostVoted]" />
     </section>
   </main>
 </template>
