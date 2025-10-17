@@ -1,5 +1,6 @@
 import express from 'express'
 import { Blog, User } from '../models/index.js'
+import { requireAuthenticated } from '../middleware/index.js'
 
 export const router = express.Router()
 
@@ -11,13 +12,8 @@ router.get('/', async (request, response) => {
   return response.json(blogs)
 })
 
-router.post('/', async (request, response) => {
-  // @TODO: Temporary, pick _a_ user.
-  const user = await User.findOne()
-  if (!user) {
-    response.status(400).json({ error: 'no user found' })
-    return
-  }
+router.post('/', requireAuthenticated, async (request, response) => {
+  const user = request.user
 
   const blog = new Blog({ ...request.body, user: user._id })
   const savedBlog = await blog.save()
