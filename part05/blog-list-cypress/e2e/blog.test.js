@@ -1,3 +1,10 @@
+function login(username, password) {
+  cy.get('input[name="username"]').type(username)
+  cy.get('input[name="password"]').type(password)
+  cy.get('button[type="submit"]').click()
+  cy.contains('jtlehtinen logged in').should('be.visible')
+}
+
 describe('Blog app', () => {
   beforeEach(() => {
     cy.request('POST', '/api/testing/reset')
@@ -27,6 +34,21 @@ describe('Blog app', () => {
       cy.get('button[type="submit"]').click()
       cy.contains('invalid username or password').should('be.visible')
       cy.contains('jtlehtinen logged in').should('not.exist')
+    })
+  })
+
+  describe('When logged in', () => {
+    beforeEach(() => {
+      login('jtlehtinen', 'password')
+    })
+
+    it('a blog can be created', () => {
+      cy.contains('Create new blog').click()
+      cy.get('[data-testid="blog-form-title"]').type('E2E testing with Cypress')
+      cy.get('[data-testid="blog-form-author"]').type('Juha Lehtinen')
+      cy.get('[data-testid="blog-form-url"]').type('http://example.com')
+      cy.get('button[type="submit"]').click()
+      cy.contains('E2E testing with Cypress Juha Lehtinen').should('be.visible')
     })
   })
 })
