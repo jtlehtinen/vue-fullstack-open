@@ -2,16 +2,19 @@
   "name": "phonebook-backend",
   "type": "module",
   "scripts": {
-    "dev": "node --watch src/main.js",
-    "start": "node src/main.js",
-    "test": "vitest"
+    "dev": "cross-env NODE_ENV=development node --watch src/main.js",
+    "start": "cross-env NODE_ENV=production node src/main.js",
+    "test": "cross-env NODE_ENV=test vitest"
   },
   "dependencies": {
+    "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "mongoose": "^8.19.1"
   },
   "devDependencies": {
+    "superagent": "^10.2.3",
+    "supertest": "^7.1.4",
     "vitest": "^3.2.4"
   }
 }

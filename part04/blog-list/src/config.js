@@ -1,6 +1,9 @@
 import dotenv from 'dotenv'
 
-dotenv.config({ quiet: true})
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV || 'development'}`,
+  quiet: true
+})
 
 export const MONGODB_URI = process.env.MONGODB_URI
 export const PORT = process.env.PORT || 3003
