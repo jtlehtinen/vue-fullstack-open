@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { useStorage } from '@vueuse/core'
-import loginService from '../services/login.js'
+import loginService from '~/services/login'
 
 export const user = useStorage('user', null, localStorage, {
   serializer: {

@@ -1,38 +1,35 @@
 <script setup>
-import { ref } from 'vue'
-import blogsService from '../services/blogs.js'
-import { getToken } from '../stores/user.js'
-import { blogs } from '../stores/blogs.js'
+const props = defineProps({
+  title: { type: String, required: true },
+  author: { type: String, required: true },
+  url: { type: String, required: true },
+})
 
-const title = ref('')
-const author = ref('')
-const url = ref('')
+const emit = defineEmits([
+  'update:title',
+  'update:author',
+  'update:url',
+  'submit'
+])
 
-function resetForm() {
-  title.value = ''
-  author.value = ''
-  url.value = ''
+function updateTitle(event) {
+  emit('update:title', event.target.value)
+}
+
+function updateAuthor(event) {
+  emit('update:author', event.target.value)
+}
+
+function updateUrl(event) {
+  emit('update:url', event.target.value)
 }
 
 async function handleSubmit() {
-  const titleValue = title.value.trim()
-  const authorValue = author.value.trim()
-  const urlValue = url.value.trim()
+  const titleValue = props.title.trim()
+  const authorValue = props.author.trim()
+  const urlValue = props.url.trim()
 
-  try {
-    const newBlog = {
-      title: titleValue,
-      author: authorValue,
-      url: urlValue,
-    }
-
-    const createdBlog = await blogsService.create(newBlog ,getToken())
-    blogs.value = blogs.value.concat(createdBlog)
-
-    resetForm()
-  } catch (error) {
-    console.error('Error creating blog', error)
-  }
+  emit('submit', titleValue, authorValue, urlValue)
 }
 </script>
 
@@ -40,17 +37,29 @@ async function handleSubmit() {
   <form @submit.prevent="handleSubmit">
     <div>
       <label>Title:
-        <input type="text" v-model="title" />
+        <input
+          type="text"
+          :value="title"
+          @input="updateTitle"
+        />
       </label>
     </div>
     <div>
       <label>Author:
-        <input type="text" v-model="author" />
+        <input
+          type="text"
+          :value="author"
+          @input="updateAuthor"
+        />
       </label>
     </div>
     <div>
       <label>URL:
-        <input type="url" v-model="url" />
+        <input
+          type="url"
+          :value="url"
+          @input="updateUrl"
+        />
       </label>
     </div>
     <button type="submit">Create</button>
