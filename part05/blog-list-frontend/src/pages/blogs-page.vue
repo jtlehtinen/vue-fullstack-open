@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import Blog from '~/components/blog.vue'
 import BlogForm from '~/components/blog-form.vue'
 import Notification from '~/components/notification.vue'
@@ -10,6 +10,10 @@ import { blogs } from '~/stores/blogs'
 import { getToken, logout, username } from '~/stores/user'
 
 const isCreateFormOpen = ref(false)
+
+const blogsToShow = computed(() => {
+  return blogs.value.toSorted((a, b) => b.likes - a.likes)
+})
 
 const { notification, success: showSuccess, error: showError } = useNotification()
 
@@ -76,7 +80,7 @@ onBeforeMount(async () => {
 
   <h3>List</h3>
   <Blog
-    v-for="blog in blogs"
+    v-for="blog in blogsToShow"
     :key="blog.id"
     :blog="blog"
     @like="handleLikeBlog"
