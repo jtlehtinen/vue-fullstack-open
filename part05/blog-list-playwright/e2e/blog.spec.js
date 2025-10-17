@@ -13,6 +13,14 @@ test.describe('Blog app', () => {
       }
     })
 
+    await request.post('/api/users', {
+      data: {
+        name: 'Pekka Puu',
+        username: 'pekkis',
+        password: 'pa55word'
+      }
+    })
+
     await page.goto('/')
   })
 
@@ -61,5 +69,15 @@ test.describe('Blog app', () => {
       await page.getByRole('button', { name: 'Remove' }).click()
       await expect(page.getByText('E2E testing with Playwright Juha Lehtinen')).not.toBeVisible()
     })
+  })
+
+  test('a blog cannot be deleted when not the creator', async ({ page, request }) => {
+    await loginWith(page, 'pekkis', 'pa55word')
+    await createBlog(page, 'Other User Blog', 'Other User', 'http://example.com')
+    await page.getByRole('button', { name: 'Logout' }).click()
+
+    await loginWith(page, 'jtlehtinen', 'password')
+    await page.getByRole('button', { name: 'View' }).click()
+    await expect(page.getByRole('button', { name: 'Remove' })).not.toBeVisible()
   })
 })
