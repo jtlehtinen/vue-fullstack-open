@@ -5,6 +5,14 @@ function login(username, password) {
   cy.contains('jtlehtinen logged in').should('be.visible')
 }
 
+function createBlog(title, author, url) {
+  cy.contains('Create new blog').click()
+  cy.get('[data-testid="blog-form-title"]').type(title)
+  cy.get('[data-testid="blog-form-author"]').type(author)
+  cy.get('[data-testid="blog-form-url"]').type(url)
+  cy.get('button[type="submit"]').click()
+}
+
 describe('Blog app', () => {
   beforeEach(() => {
     cy.request('POST', '/api/testing/reset')
@@ -49,6 +57,13 @@ describe('Blog app', () => {
       cy.get('[data-testid="blog-form-url"]').type('http://example.com')
       cy.get('button[type="submit"]').click()
       cy.contains('E2E testing with Cypress Juha Lehtinen').should('be.visible')
+    })
+
+    it('a blog can be liked', () => {
+      createBlog('E2E testing with Cypress', 'Juha Lehtinen', 'http://example.com')
+      cy.contains('View').click()
+      cy.contains('Like').click()
+      cy.get('[data-testid="blog-likes"]').should('contain', 'Likes: 1')
     })
   })
 })
