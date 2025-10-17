@@ -29,4 +29,10 @@ describe('GET /api/blogs', () => {
 
     expect(response.body).toHaveLength(initialBlogs.length)
   })
+
+  test('should return blogs with an id property', async () => {
+    const response = await api.get('/api/blogs')
+
+    response.body.forEach(blog => expect(blog.id).toBeDefined())
+  })
 })

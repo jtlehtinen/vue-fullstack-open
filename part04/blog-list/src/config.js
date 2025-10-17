@@ -1,5 +1,10 @@
 import dotenv from 'dotenv'
 
+const environment = process.env.NODE_ENV || 'development'
+export const isTestEnv = environment === 'test'
+export const isDevelopmentEnv = environment === 'development'
+export const isProductionEnv = environment === 'production'
+
 dotenv.config({
   path: `.env.${process.env.NODE_ENV || 'development'}`,
   quiet: true
