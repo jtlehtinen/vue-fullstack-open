@@ -101,4 +101,28 @@ describe('Blog app', () => {
     cy.contains('View').click()
     cy.contains('Remove').should('not.exist')
   })
+
+  it('blogs ordered based on likes', () => {
+    login({ username: 'jtlehtinen', password: 'password' })
+    createBlog({ title: 'Blog One', author: 'Author One', url: 'http://one.com' })
+    createBlog({ title: 'Blog Two', author: 'Author Two', url: 'http://two.com' })
+    createBlog({ title: 'Blog Three', author: 'Author Three', url: 'http://three.com' })
+
+    cy.contains('Blog Two Author Two').parent().contains('View').click()
+    cy.contains('Blog Two Author Two').parent().contains('Like').click().click()
+    cy.contains('Blog Two Author Two').parent().find('[data-testid="blog-likes"]').should('contain', 'Likes: 2')
+
+    cy.contains('Blog Three Author Three').parent().contains('View').click()
+    cy.contains('Blog Three Author Three').parent().contains('Like').click()
+    cy.contains('Blog Three Author Three').parent().find('[data-testid="blog-likes"]').should('contain', 'Likes: 1')
+
+    cy.get('[data-testid="blog-title-author"]').then((elements) => {
+      const titles = [...elements].map(el => el.textContent)
+      expect(titles).to.deep.equal([
+        'Blog Two Author Two',
+        'Blog Three Author Three',
+        'Blog One Author One'
+      ])
+    })
+  })
 })
