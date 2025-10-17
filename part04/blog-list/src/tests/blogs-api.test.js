@@ -100,3 +100,23 @@ describe('POST /api/blogs', () => {
       .expect(400)
   })
 })
+
+describe('DELETE /api/blogs/:id', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    await Blog.insertMany(initialBlogs)
+  })
+
+  test('should delete a blog by id', async () => {
+    const blogsAtStart = await Blog.find({})
+    const blogToDelete = blogsAtStart[0]
+
+    await api.delete(`/api/blogs/${blogToDelete.id.toString()}`).expect(204)
+
+    const blogsAtEnd = await Blog.find({})
+    const blogIdsAtEnd = blogsAtEnd.map(b => b.id.toString())
+
+    expect(blogsAtEnd).toHaveLength(initialBlogs.length - 1)
+    expect(blogIdsAtEnd).not.toContain(blogToDelete.id.toString())
+  })
+})
