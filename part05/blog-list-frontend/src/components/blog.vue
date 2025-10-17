@@ -24,18 +24,18 @@ function handleRemove() {
 
 <template>
   <div class="blog">
-    {{ blog.title }} {{ blog.author }}
+    <span data-testid="blog-title-author">{{ blog.title }} {{ blog.author }}</span>
     <button @click="handleToggleDetails">
       {{ showDetails ? 'Hide' : 'View' }}
     </button>
 
     <template v-if="showDetails">
-      <div>{{ blog.url }}</div>
-      <div>
+      <div data-testid="blog-url">{{ blog.url }}</div>
+      <div data-testid="blog-likes">
         Likes: {{ blog.likes }}
         <button @click="handleLike">Like</button>
       </div>
-      <div>Added by {{ blog.user.username }}</div>
+      <div data-testid="blog-user">Added by {{ blog.user.username }}</div>
       <button @click="handleRemove">Remove</button>
     </template>
   </div>
