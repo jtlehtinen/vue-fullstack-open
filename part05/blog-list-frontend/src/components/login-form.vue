@@ -32,6 +32,7 @@ async function handleLogin() {
         Username:
         <input
           type="text"
+          name="username"
           :value="username"
           @input="updateUsername"
         />
@@ -42,6 +43,7 @@ async function handleLogin() {
         Password:
         <input
           type="password"
+          name="password"
           :value="password"
           @input="updatePassword"
         />
