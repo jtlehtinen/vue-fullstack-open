@@ -1,8 +1,8 @@
-function login(username, password) {
+function login({ username, password }) {
   cy.get('input[name="username"]').type(username)
   cy.get('input[name="password"]').type(password)
   cy.get('button[type="submit"]').click()
-  cy.contains('jtlehtinen logged in').should('be.visible')
+  cy.contains(`${username} logged in`).should('be.visible')
 }
 
 function createBlog({ title, author, url }) {
@@ -20,6 +20,11 @@ describe('Blog app', () => {
       name: 'Juha Lehtinen',
       username: 'jtlehtinen',
       password: 'password'
+    })
+    cy.request('POST', '/api/users', {
+      name: 'Pekka Puu',
+      username: 'pekkis',
+      password: 'pa55word'
     })
     cy.visit('/')
   })
@@ -47,7 +52,7 @@ describe('Blog app', () => {
 
   describe('When logged in', () => {
     beforeEach(() => {
-      login('jtlehtinen', 'password')
+      login({ username: 'jtlehtinen', password: 'password' })
     })
 
     it('a blog can be created', () => {
@@ -81,5 +86,19 @@ describe('Blog app', () => {
       cy.contains('Remove').click()
       cy.contains('E2E testing with Cypress Juha Lehtinen').should('not.exist')
     })
+  })
+
+  it('a blog cannot be deleted when not the creator', () => {
+    login({ username: 'pekkis', password: 'pa55word' })
+    createBlog({
+      title: 'Other User Blog',
+      author: 'Other User',
+      url: 'http://example.com'
+    })
+    cy.contains('Logout').click()
+
+    login({ username: 'jtlehtinen', password: 'password' })
+    cy.contains('View').click()
+    cy.contains('Remove').should('not.exist')
   })
 })
