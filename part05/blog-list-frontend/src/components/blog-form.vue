@@ -29,19 +29,19 @@ async function handleSubmit() {
   <form @submit.prevent="handleSubmit">
     <div>
       <label>Title:
-        <input type="text" v-model="title" />
+        <input data-testid="blog-form-title" type="text" v-model="title" />
       </label>
     </div>
     <div>
       <label>Author:
-        <input type="text" v-model="author" />
+        <input data-testid="blog-form-author" type="text" v-model="author" />
       </label>
     </div>
     <div>
       <label>URL:
-        <input type="url" v-model="url" />
+        <input data-testid="blog-form-url" type="url" v-model="url" />
       </label>
     </div>
-    <button type="submit">Create</button>
+    <button data-testid="blog-form-submit-btn" type="submit">Create</button>
   </form>
 </template>

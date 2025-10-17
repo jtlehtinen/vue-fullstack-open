@@ -1,6 +1,6 @@
+import { mount } from '@vue/test-utils'
 import { describe, test, expect } from 'vitest'
 import Blog from './blog.vue'
-import { mount } from '@vue/test-utils'
 
 describe("Blog component", () => {
   const blog = {
@@ -15,7 +15,7 @@ describe("Blog component", () => {
     }
   }
 
-  test('renders blog title and author initially', () => {
+  test('should initially render blog title and author', () => {
     const wrapper = mount(Blog, {
       props: { blog }
     })
@@ -31,7 +31,7 @@ describe("Blog component", () => {
     expect(likes.exists()).toBe(false)
   })
 
-  test('renders blog url and likes when view clicked', async () => {
+  test('should render blog url and likes when view clicked', async () => {
     const wrapper = mount(Blog, {
       props: { blog }
     })
@@ -46,7 +46,7 @@ describe("Blog component", () => {
     expect(likes.exists()).toBe(true)
   })
 
-  test('emits like event when like button clicked', async () => {
+  test('should emit event when like button clicked', async () => {
     const wrapper = mount(Blog, {
       props: { blog }
     })
