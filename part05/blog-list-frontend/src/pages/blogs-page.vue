@@ -3,6 +3,7 @@ import { onBeforeMount, ref } from 'vue';
 import Blog from '~/components/blog.vue'
 import BlogForm from '~/components/blog-form.vue'
 import Notification from '~/components/notification.vue'
+import Toggleable from '~/components/toggleable.vue'
 import { useNotification } from '~/composables/use-notification'
 import blogsService from '~/services/blogs'
 import { blogs } from '~/stores/blogs'
@@ -11,13 +12,15 @@ import { getToken, logout, username } from '~/stores/user'
 const title = ref('')
 const author = ref('')
 const url = ref('')
+const isCreateFormOpen = ref(false)
 
 const { notification, success: showSuccess, error: showError } = useNotification()
 
-function resetForm() {
+function resetCreateForm() {
   title.value = ''
   author.value = ''
   url.value = ''
+  isCreateFormOpen.value = false
 }
 
 async function handleSubmitBlogForm(titleValue, authorValue, urlValue) {
@@ -31,7 +34,7 @@ async function handleSubmitBlogForm(titleValue, authorValue, urlValue) {
     const createdBlog = await blogsService.create(newBlog ,getToken())
     blogs.value = blogs.value.concat(createdBlog)
 
-    resetForm()
+    resetCreateForm()
 
     showSuccess(`A new blog "${createdBlog.title}" by ${createdBlog.author} added`)
   } catch (error) {
@@ -60,16 +63,22 @@ onBeforeMount(async () => {
     <button @click="logout">Logout</button>
   </div>
 
-  <h3>Create new</h3>
-  <BlogForm
-    :title="title"
-    :author="author"
-    :url="url"
-    @update:title="title = $event"
-    @update:author="author = $event"
-    @update:url="url = $event"
-    @submit="handleSubmitBlogForm"
-  />
+  <Toggleable
+    v-model="isCreateFormOpen"
+    open-label="Create new blog"
+    close-label="Cancel"
+  >
+    <h3>Create new</h3>
+    <BlogForm
+      :title="title"
+      :author="author"
+      :url="url"
+      @update:title="title = $event"
+      @update:author="author = $event"
+      @update:url="url = $event"
+      @submit="handleSubmitBlogForm"
+    />
+  </Toggleable>
 
   <h3>List</h3>
   <Blog v-for="blog in blogs" :key="blog.id" :blog="blog" />
