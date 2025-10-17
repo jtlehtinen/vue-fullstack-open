@@ -77,4 +77,26 @@ describe('POST /api/blogs', () => {
 
     expect(response.body.likes).toBe(0)
   })
+
+  test('should fail with 400 if title missing', async () => {
+    const newBlog = {
+      author: 'Author',
+      url: 'http://exmaple.com'
+    }
+
+    await api.post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
+
+  test('should fail with 400 if url missing', async () => {
+    const newBlog = {
+      author: 'Author',
+      title: 'Title'
+    }
+
+    await api.post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
 })

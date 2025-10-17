@@ -1,5 +1,7 @@
+import logger from '../lib/logger.js'
+
 export function errorHandler(error, request, response, next) {
-  console.error(error?.message)
+  logger.error(error?.message)
 
   switch (error.name) {
   case 'ValidationError':
