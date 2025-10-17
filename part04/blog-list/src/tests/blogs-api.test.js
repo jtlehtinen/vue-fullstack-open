@@ -62,4 +62,19 @@ describe('POST /api/blogs', () => {
     const titles = blogsAtEnd.map(b => b.title)
     expect(titles).toContain('New Blog')
   })
+
+  test('should default likes to 0', async () => {
+    const newBlog = {
+      title: 'No Likes Blog',
+      author: 'Author',
+      url: 'http://nolikes.com'
+    }
+
+    const response = await api.post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    expect(response.body.likes).toBe(0)
+  })
 })
