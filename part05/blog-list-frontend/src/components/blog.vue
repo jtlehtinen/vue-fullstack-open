@@ -5,13 +5,17 @@ const props = defineProps({
   blog: { type: Object, required: true }
 })
 
+const emit = defineEmits(['like'])
+
 const showDetails = ref(false)
 
 function handleToggleDetails() {
   showDetails.value = !showDetails.value
 }
 
-function handleLike() { }
+async function handleLike() {
+  emit('like', props.blog)
+}
 </script>
 
 <template>

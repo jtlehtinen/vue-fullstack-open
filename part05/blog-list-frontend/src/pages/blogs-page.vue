@@ -32,6 +32,19 @@ async function handleSubmitBlogForm(titleValue, authorValue, urlValue) {
   }
 }
 
+async function handleLikeBlog(blog) {
+  try {
+    const updatedBlog = await blogsService.update({
+      ...blog,
+      likes: blog.likes + 1,
+    })
+    blogs.value = blogs.value.map(b => b.id === updatedBlog.id ? updatedBlog : b)
+  } catch (error) {
+    const message = error.response?.data.error || 'unknown error occurred'
+    showError(message)
+  }
+}
+
 onBeforeMount(async () => {
   blogs.value = await blogsService.getAll()
 })
@@ -62,7 +75,12 @@ onBeforeMount(async () => {
   </Toggleable>
 
   <h3>List</h3>
-  <Blog v-for="blog in blogs" :key="blog.id" :blog="blog" />
+  <Blog
+    v-for="blog in blogs"
+    :key="blog.id"
+    :blog="blog"
+    @like="handleLikeBlog"
+  />
 </template>
 
 <style scoped>

@@ -15,7 +15,13 @@ export async function getAll() {
   return response.data
 }
 
+export async function update(blog) {
+  const response = await axios.put(`${BASE_URL}/${blog.id}`, blog)
+  return response.data
+}
+
 export default {
   create,
   getAll,
+  update,
 }

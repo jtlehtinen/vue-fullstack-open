@@ -64,5 +64,7 @@ router.put('/:id', async (request, response) => {
     return response.status(404).end()
   }
 
-  response.json(updatedBlog)
+  const updatedBlogWithUser = await Blog.populate(updatedBlog, { path: 'user', select: { username: 1, name: 1 } })
+
+  response.json(updatedBlogWithUser)
 })
