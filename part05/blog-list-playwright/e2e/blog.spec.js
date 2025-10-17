@@ -80,4 +80,33 @@ test.describe('Blog app', () => {
     await page.getByRole('button', { name: 'View' }).click()
     await expect(page.getByRole('button', { name: 'Remove' })).not.toBeVisible()
   })
+
+  test('blogs ordered based on likes', async ({ page, request }) => {
+    await loginWith(page, 'jtlehtinen', 'password')
+
+    await createBlog(page, 'Blog One', 'Author One', 'http://one.com')
+    await createBlog(page, 'Blog Two', 'Author Two', 'http://two.com')
+    await createBlog(page, 'Blog Three', 'Author Three', 'http://three.com')
+
+    await page.getByText('Blog Two Author Two').locator('..').getByRole('button', { name: 'View' }).click()
+    const blogTwo = page.getByText('Blog Two Author Two').locator('..')
+    await blogTwo.getByRole('button', { name: 'Like' }).click()
+    await expect(blogTwo.getByTestId('blog-likes')).toHaveText(/Likes: 1/)
+    await blogTwo.getByRole('button', { name: 'Like' }).click()
+    await expect(blogTwo.getByTestId('blog-likes')).toHaveText(/Likes: 2/)
+
+    await page.getByText('Blog Three Author Three').locator('..').getByRole('button', { name: 'View' }).click()
+    const blogThree = page.getByText('Blog Three Author Three').locator('..')
+    await blogThree.getByRole('button', { name: 'Like' }).click()
+    await expect(blogThree.getByTestId('blog-likes')).toHaveText(/Likes: 1/)
+
+    const blogTitles = await page.locator('[data-testid="blog-title-author"]').allTextContents()
+
+    expect(blogTitles.length).toBe(3)
+    expect(blogTitles).toBe([
+      'Blog Two Author Two',
+      'Blog Three Author Three',
+      'Blog One Author One'
+    ])
+  })
 })

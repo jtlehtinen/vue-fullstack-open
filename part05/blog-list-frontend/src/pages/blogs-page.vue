@@ -94,13 +94,15 @@ onBeforeMount(async () => {
   </Toggleable>
 
   <h3>List</h3>
-  <Blog
-    v-for="blog in blogsToShow"
-    :key="blog.id"
-    :blog="blog"
-    @like="handleLikeBlog"
-    @remove="handleRemoveBlog"
-  />
+  <div data-testid="blog-list">
+    <Blog
+      v-for="blog in blogsToShow"
+      :key="blog.id"
+      :blog="blog"
+      @like="handleLikeBlog"
+      @remove="handleRemoveBlog"
+    />
+  </div>
 </template>
 
 <style scoped>

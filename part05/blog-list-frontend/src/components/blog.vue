@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { user } from '~/stores/user'
 
 const props = defineProps({
   blog: { type: Object, required: true }
@@ -8,6 +9,10 @@ const props = defineProps({
 const emit = defineEmits(['like', 'remove'])
 
 const showDetails = ref(false)
+
+const canRemove = computed(() => {
+  return user.value?.id === props.blog.user.id
+})
 
 function handleToggleDetails() {
   showDetails.value = !showDetails.value
@@ -36,7 +41,7 @@ function handleRemove() {
         <button data-testid="blog-like-btn" @click="handleLike">Like</button>
       </div>
       <div data-testid="blog-user">Added by {{ blog.user.username }}</div>
-      <button @click="handleRemove">Remove</button>
+      <button v-if="canRemove" @click="handleRemove">Remove</button>
     </template>
   </div>
 </template>
