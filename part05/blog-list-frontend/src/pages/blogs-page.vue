@@ -9,19 +9,9 @@ import blogsService from '~/services/blogs'
 import { blogs } from '~/stores/blogs'
 import { getToken, logout, username } from '~/stores/user'
 
-const title = ref('')
-const author = ref('')
-const url = ref('')
 const isCreateFormOpen = ref(false)
 
 const { notification, success: showSuccess, error: showError } = useNotification()
-
-function resetCreateForm() {
-  title.value = ''
-  author.value = ''
-  url.value = ''
-  isCreateFormOpen.value = false
-}
 
 async function handleSubmitBlogForm(titleValue, authorValue, urlValue) {
   try {
@@ -33,8 +23,7 @@ async function handleSubmitBlogForm(titleValue, authorValue, urlValue) {
 
     const createdBlog = await blogsService.create(newBlog ,getToken())
     blogs.value = blogs.value.concat(createdBlog)
-
-    resetCreateForm()
+    isCreateFormOpen.value = false
 
     showSuccess(`A new blog "${createdBlog.title}" by ${createdBlog.author} added`)
   } catch (error) {
@@ -69,15 +58,7 @@ onBeforeMount(async () => {
     close-label="Cancel"
   >
     <h3>Create new</h3>
-    <BlogForm
-      :title="title"
-      :author="author"
-      :url="url"
-      @update:title="title = $event"
-      @update:author="author = $event"
-      @update:url="url = $event"
-      @submit="handleSubmitBlogForm"
-    />
+    <BlogForm @submit="handleSubmitBlogForm" />
   </Toggleable>
 
   <h3>List</h3>

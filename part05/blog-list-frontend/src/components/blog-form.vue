@@ -1,35 +1,27 @@
 <script setup>
-const props = defineProps({
-  title: { type: String, required: true },
-  author: { type: String, required: true },
-  url: { type: String, required: true },
-})
+import { ref } from 'vue'
+
+const title = ref('')
+const author = ref('')
+const url = ref('')
 
 const emit = defineEmits([
-  'update:title',
-  'update:author',
-  'update:url',
   'submit'
 ])
 
-function updateTitle(event) {
-  emit('update:title', event.target.value)
-}
-
-function updateAuthor(event) {
-  emit('update:author', event.target.value)
-}
-
-function updateUrl(event) {
-  emit('update:url', event.target.value)
+function resetForm() {
+  title.value = ''
+  author.value = ''
+  url.value = ''
 }
 
 async function handleSubmit() {
-  const titleValue = props.title.trim()
-  const authorValue = props.author.trim()
-  const urlValue = props.url.trim()
+  const titleValue = title.value.trim()
+  const authorValue = author.value.trim()
+  const urlValue = url.value.trim()
 
   emit('submit', titleValue, authorValue, urlValue)
+  resetForm()
 }
 </script>
 
@@ -37,29 +29,17 @@ async function handleSubmit() {
   <form @submit.prevent="handleSubmit">
     <div>
       <label>Title:
-        <input
-          type="text"
-          :value="title"
-          @input="updateTitle"
-        />
+        <input type="text" v-model="title" />
       </label>
     </div>
     <div>
       <label>Author:
-        <input
-          type="text"
-          :value="author"
-          @input="updateAuthor"
-        />
+        <input type="text" v-model="author" />
       </label>
     </div>
     <div>
       <label>URL:
-        <input
-          type="url"
-          :value="url"
-          @input="updateUrl"
-        />
+        <input type="url" v-model="url" />
       </label>
     </div>
     <button type="submit">Create</button>
