@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { loginWith } from './helper.js'
+import { createBlog, loginWith } from './helper.js'
 
 test.describe('Blog app', () => {
   test.beforeEach(async ({ page, request }) => {
@@ -30,6 +30,17 @@ test.describe('Blog app', () => {
       await loginWith(page, 'jtlehtinen', 'invalid')
       await expect(page.getByText('invalid username or password')).toBeVisible()
       await expect(page.getByText('jtlehtinen logged in')).not.toBeVisible()
+    })
+  })
+
+  test.describe('When logged in', () => {
+    test.beforeEach(async ({ page }) => {
+      await loginWith(page, 'jtlehtinen', 'password')
+    })
+
+    test('a blog can be created', async ({ page }) => {
+      await createBlog(page, 'E2E testing with Playwright', 'Juha Lehtinen', 'http://example.com')
+      await expect(page.getByText('E2E testing with Playwright Juha Lehtinen')).toBeVisible()
     })
   })
 })
