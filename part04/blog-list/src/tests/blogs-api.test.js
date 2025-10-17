@@ -21,7 +21,8 @@ describe('GET /api/blogs', () => {
     await Blog.deleteMany({})
     await Blog.insertMany(initialBlogs)
   })
-    test('should return all blogs as JSON', async () => {
+
+  test('should return all blogs as JSON', async () => {
     const response = await api
       .get('/api/blogs')
       .expect(200)
@@ -118,5 +119,26 @@ describe('DELETE /api/blogs/:id', () => {
 
     expect(blogsAtEnd).toHaveLength(initialBlogs.length - 1)
     expect(blogIdsAtEnd).not.toContain(blogToDelete.id.toString())
+  })
+})
+
+describe('PUT /api/blogs/:id', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    await Blog.insertMany(initialBlogs)
+  })
+
+  test('should update the number of likes for a blog', async () => {
+    const blogsAtStart = await Blog.find({})
+    const blogToUpdate = blogsAtStart[0]
+
+    const updatedBlog = { ...blogToUpdate.toJSON(), likes: blogToUpdate.likes + 1 }
+
+    const response = await api.put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    expect(response.body.likes).toBe(blogToUpdate.likes + 1)
   })
 })

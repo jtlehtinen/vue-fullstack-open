@@ -18,3 +18,21 @@ router.delete('/:id', async (request, response) => {
   await Blog.findByIdAndDelete(request.params.id)
   response.status(204).end()
 })
+
+router.put('/:id', async (request, response) => {
+  if (!request.body) return response.status(400).end({ error: 'request body missing' })
+
+  const { title, author, url, likes } = request.body
+
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    { title, author, url, likes },
+    { new: true, runValidators: true, context: 'query' }
+  )
+
+  if (!updatedBlog) {
+    return response.status(404).end()
+  }
+
+  response.json(updatedBlog)
+})
