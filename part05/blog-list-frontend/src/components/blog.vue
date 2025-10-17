@@ -5,7 +5,7 @@ const props = defineProps({
   blog: { type: Object, required: true }
 })
 
-const emit = defineEmits(['like'])
+const emit = defineEmits(['like', 'remove'])
 
 const showDetails = ref(false)
 
@@ -13,8 +13,12 @@ function handleToggleDetails() {
   showDetails.value = !showDetails.value
 }
 
-async function handleLike() {
+function handleLike() {
   emit('like', props.blog)
+}
+
+function handleRemove() {
+  emit('remove', props.blog)
 }
 </script>
 
@@ -32,7 +36,7 @@ async function handleLike() {
         <button @click="handleLike">Like</button>
       </div>
       <div>Added by {{ blog.user.username }}</div>
-
+      <button @click="handleRemove">Remove</button>
     </template>
   </div>
 </template>

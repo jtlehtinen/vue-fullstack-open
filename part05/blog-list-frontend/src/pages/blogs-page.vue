@@ -49,6 +49,21 @@ async function handleLikeBlog(blog) {
   }
 }
 
+async function handleRemoveBlog(blog) {
+  if (!window.confirm(`Remove blog "${blog.title}" by ${blog.author}?`)) {
+    return
+  }
+
+  try {
+    await blogsService.remove(blog.id, getToken())
+    blogs.value = blogs.value.filter(b => b.id !== blog.id)
+    showSuccess(`Blog "${blog.title}" by ${blog.author} removed`)
+  } catch (error) {
+    const message = error.response?.data.error || 'unknown error occurred'
+    showError(message)
+  }
+}
+
 onBeforeMount(async () => {
   blogs.value = await blogsService.getAll()
 })
@@ -84,6 +99,7 @@ onBeforeMount(async () => {
     :key="blog.id"
     :blog="blog"
     @like="handleLikeBlog"
+    @remove="handleRemoveBlog"
   />
 </template>
 

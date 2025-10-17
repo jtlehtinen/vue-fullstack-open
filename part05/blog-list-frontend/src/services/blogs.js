@@ -20,8 +20,16 @@ export async function update(blog) {
   return response.data
 }
 
+export async function remove(blogId, token) {
+  const response = await axios.delete(`${BASE_URL}/${blogId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return response.data
+}
+
 export default {
   create,
   getAll,
   update,
+  remove,
 }
