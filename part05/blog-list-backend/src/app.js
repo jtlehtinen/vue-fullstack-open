@@ -1,8 +1,8 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import { blogRouter, loginRouter, userRouter } from './controllers/index.js'
+import { blogRouter, loginRouter, testingRouter, userRouter } from './controllers/index.js'
 import { authenticate, errorHandler, requestLogger, unknownEndpoint } from './middleware/index.js'
-import config from './config.js'
+import config, { isTestEnv } from './config.js'
 
 export async function createApp() {
   mongoose.connect(config.MONGODB_URI)
@@ -17,6 +17,10 @@ export async function createApp() {
   app.use('/api/blogs', blogRouter)
   app.use('/api/login', loginRouter)
   app.use('/api/users', userRouter)
+
+  if (isTestEnv) {
+    app.use('/api/testing', testingRouter)
+  }
 
   app.use(unknownEndpoint)
   app.use(errorHandler)

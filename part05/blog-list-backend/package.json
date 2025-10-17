@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development node --watch src/main.js",
     "start": "cross-env NODE_ENV=production node src/main.js",
+    "start:test": "cross-env NODE_ENV=test node src/main.js",
     "test": "cross-env NODE_ENV=test vitest"
   },
   "dependencies": {
