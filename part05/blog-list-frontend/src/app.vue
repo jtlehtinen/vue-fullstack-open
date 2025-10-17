@@ -1,12 +1,12 @@
 <script setup>
-import BlogList from './components/blog-list.vue'
+import Blogs from './components/blogs.vue'
 import LoginForm from './components/login-form.vue'
 import { isAuthenticated } from './stores/user.js'
 </script>
 
 <template>
   <main>
-    <BlogList v-if="isAuthenticated" />
+    <Blogs v-if="isAuthenticated" />
     <LoginForm v-else />
   </main>
 </template>

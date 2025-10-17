@@ -1,10 +1,10 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue';
 import Blog from './blog.vue'
-import { logout, username } from '../stores/user.js'
+import BlogForm from './blog-form.vue'
 import blogsService from '../services/blogs.js'
-
-const blogs = ref([])
+import { blogs } from '../stores/blogs.js'
+import { logout, username } from '../stores/user.js'
 
 onBeforeMount(async () => {
   blogs.value = await blogsService.getAll()
@@ -17,6 +17,11 @@ onBeforeMount(async () => {
     <p><span class="font-bold">{{ username }}</span> logged in.</p>
     <button @click="logout">Logout</button>
   </div>
+
+  <h3>Create new</h3>
+  <BlogForm />
+
+  <h3>List</h3>
   <Blog v-for="blog in blogs" :key="blog.id" :blog="blog" />
 </template>
 
