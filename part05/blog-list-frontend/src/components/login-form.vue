@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import loginService from '../services/login.js'
-import { setUser } from '../stores/user.js'
+import { login } from '../stores/user.js'
 
 const username = ref('')
 const password = ref('')
@@ -11,9 +10,7 @@ async function handleLogin() {
   const passwordValue = password.value
 
   try {
-    const user = await loginService.login(usernameValue, passwordValue)
-    setUser(user)
-
+    await login(usernameValue, passwordValue)
     username.value = ''
   } catch (error) {
     console.error(error)
