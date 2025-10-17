@@ -25,7 +25,7 @@ function handleRemove() {
 <template>
   <div class="blog">
     <span data-testid="blog-title-author">{{ blog.title }} {{ blog.author }}</span>
-    <button data-testid="blog-toggle-details" @click="handleToggleDetails">
+    <button data-testid="blog-view-btn" @click="handleToggleDetails">
       {{ showDetails ? 'Hide' : 'View' }}
     </button>
 
@@ -33,7 +33,7 @@ function handleRemove() {
       <div data-testid="blog-url">{{ blog.url }}</div>
       <div data-testid="blog-likes">
         Likes: {{ blog.likes }}
-        <button @click="handleLike">Like</button>
+        <button data-testid="blog-like-btn" @click="handleLike">Like</button>
       </div>
       <div data-testid="blog-user">Added by {{ blog.user.username }}</div>
       <button @click="handleRemove">Remove</button>
