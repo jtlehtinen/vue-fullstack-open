@@ -1,6 +1,6 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import { blogRouter, userRouter } from './controllers/index.js'
+import { blogRouter, loginRouter, userRouter } from './controllers/index.js'
 import { errorHandler, requestLogger, unknownEndpoint } from './middleware/index.js'
 import config from './config.js'
 
@@ -14,6 +14,7 @@ export async function createApp() {
   app.use(requestLogger)
 
   app.use('/api/blogs', blogRouter)
+  app.use('/api/login', loginRouter)
   app.use('/api/users', userRouter)
 
   app.use(unknownEndpoint)
