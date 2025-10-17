@@ -48,5 +48,18 @@ test.describe('Blog app', () => {
       await page.getByRole('button', { name: 'View' }).click()
       await page.getByRole('button', { name: 'Like' }).click()
     })
+
+    test('a blog can be deleted', async ({ page }) => {
+      await createBlog(page, 'E2E testing with Playwright', 'Juha Lehtinen', 'http://example.com')
+      await page.getByRole('button', { name: 'View' }).click()
+
+      page.once('dialog', async (dialog) => {
+        expect(dialog.type()).toBe('confirm')
+        await dialog.accept()
+      })
+
+      await page.getByRole('button', { name: 'Remove' }).click()
+      await expect(page.getByText('E2E testing with Playwright Juha Lehtinen')).not.toBeVisible()
+    })
   })
 })
