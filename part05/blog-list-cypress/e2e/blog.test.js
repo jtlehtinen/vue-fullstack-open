@@ -5,7 +5,7 @@ function login(username, password) {
   cy.contains('jtlehtinen logged in').should('be.visible')
 }
 
-function createBlog(title, author, url) {
+function createBlog({ title, author, url }) {
   cy.contains('Create new blog').click()
   cy.get('[data-testid="blog-form-title"]').type(title)
   cy.get('[data-testid="blog-form-author"]').type(author)
@@ -60,10 +60,26 @@ describe('Blog app', () => {
     })
 
     it('a blog can be liked', () => {
-      createBlog('E2E testing with Cypress', 'Juha Lehtinen', 'http://example.com')
+      createBlog({
+        title: 'E2E testing with Cypress',
+        author: 'Juha Lehtinen',
+        url: 'http://example.com'
+      })
       cy.contains('View').click()
       cy.contains('Like').click()
       cy.get('[data-testid="blog-likes"]').should('contain', 'Likes: 1')
+    })
+
+    it('a blog can be deleted', () => {
+      createBlog({
+        title: 'E2E testing with Cypress',
+        author: 'Juha Lehtinen',
+        url: 'http://example.com'
+      })
+      cy.contains('View').click()
+      cy.on('window:confirm', () => true)
+      cy.contains('Remove').click()
+      cy.contains('E2E testing with Cypress Juha Lehtinen').should('not.exist')
     })
   })
 })
