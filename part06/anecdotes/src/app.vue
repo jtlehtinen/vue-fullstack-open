@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import Anecdote from './components/anecdote.vue'
+import AnecdoteForm from './components/anecdote-form.vue'
 import { useAnecdotesStore } from './stores/anecdotes'
 
 const anecdotesStore = useAnecdotesStore()
@@ -14,6 +15,11 @@ function handleVote(id) {
 <template>
   <main>
     <h1>Anecdotes</h1>
+
+    <h2>Add new</h2>
+    <AnecdoteForm />
+
+    <h2>Anecdote list</h2>
     <Anecdote
       v-for="anecdote in anecdotes"
       :key="anecdote.id"

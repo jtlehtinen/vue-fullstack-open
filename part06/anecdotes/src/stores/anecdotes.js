@@ -26,6 +26,15 @@ export const useAnecdotesStore = defineStore('anecdotes', () => {
     anecdotes.value = initialAnecdotes
   }
 
+  function add(content) {
+    const newAnecdote = {
+      id: nanoid(),
+      content,
+      votes: 0,
+    }
+    anecdotes.value = [...anecdotes.value, newAnecdote]
+  }
+
   function vote(id) {
     anecdotes.value = anecdotes.value.map(anecdote =>
       anecdote.id === id
@@ -38,6 +47,7 @@ export const useAnecdotesStore = defineStore('anecdotes', () => {
     anecdotes,
 
     $reset,
+    add,
     vote,
   }
 })

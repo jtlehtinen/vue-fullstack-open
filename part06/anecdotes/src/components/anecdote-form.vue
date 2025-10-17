@@ -1,0 +1,40 @@
+<script setup>
+import { ref } from 'vue'
+import { useAnecdotesStore } from '~/stores/anecdotes'
+
+const content = ref('')
+const anecdotesStore = useAnecdotesStore()
+
+function handleSubmit() {
+  const contentValue = content.value.trim()
+  if (!contentValue) {
+    window.alert('Anecdote content cannot be empty')
+    return
+  }
+
+  anecdotesStore.add(content.value)
+  content.value = ''
+}
+</script>
+
+<template>
+  <form @submit.prevent="handleSubmit">
+    <div>
+      <label>
+        Anecdote content:
+        <input type="text" v-model="content" />
+      </label>
+      <button type="submit">Add</button>
+    </div>
+  </form>
+</template>
+
+<style scoped>
+button {
+  margin-left: 0.5rem;
+}
+
+input {
+  min-width: 50%;
+}
+</style>
