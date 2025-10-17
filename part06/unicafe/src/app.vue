@@ -20,6 +20,9 @@ const { good, neutral, bad } = storeToRefs(counterStore)
     <Button @click="good++">
       Good
     </Button>
+    <Button @click="counterStore.$reset()">
+      Reset
+    </Button>
 
     <h2>Statistics</h2>
     <StatisticsTable
