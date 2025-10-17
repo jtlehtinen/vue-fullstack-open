@@ -27,4 +27,33 @@ describe("Blog component", () => {
     const likes = wrapper.find('[data-testid="blog-likes"]')
     expect(likes.exists()).toBe(false)
   })
+
+  test('renders blog url and likes when view clicked', async () => {
+    const blog = {
+      title: 'React Hooks in Depth',
+      author: 'Alice Johnson',
+      url: 'https://example.com/react-hooks',
+      likes: 15,
+      user: {
+        username: 'juha',
+        name: 'Juha Tester',
+        id: '1'
+      }
+    }
+
+    const wrapper = mount(Blog, {
+      props: {
+        blog
+      }
+    })
+
+    const viewButton = wrapper.get('[data-testid="blog-toggle-details"]')
+    await viewButton.trigger('click')
+
+    const url = wrapper.find('[data-testid="blog-url"]')
+    expect(url.exists()).toBe(true)
+
+    const likes = wrapper.find('[data-testid="blog-likes"]')
+    expect(likes.exists()).toBe(true)
+  })
 })
