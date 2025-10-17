@@ -36,3 +36,30 @@ describe('GET /api/blogs', () => {
     response.body.forEach(blog => expect(blog.id).toBeDefined())
   })
 })
+
+describe('POST /api/blogs', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    await Blog.insertMany(initialBlogs)
+  })
+
+  test('should successfully create a new blog', async () => {
+    const newBlog = {
+      title: 'New Blog',
+      author: 'Author',
+      url: 'http://example.com',
+      likes: 5
+    }
+
+    await api.post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await Blog.find({})
+    expect(blogsAtEnd).toHaveLength(initialBlogs.length + 1)
+
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).toContain('New Blog')
+  })
+})
