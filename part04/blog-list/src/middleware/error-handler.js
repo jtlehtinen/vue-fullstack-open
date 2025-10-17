@@ -5,11 +5,13 @@ export function errorHandler(error, request, response, next) {
 
   switch (error.name) {
   case 'ValidationError':
-    response.status(400).json({ error: error.message })
-    return
+    return response.status(400).json({ error: error.message })
   case 'CastError':
-    response.status(400).send({ error: 'malformatted id' })
-    return
+    return response.status(400).send({ error: 'malformatted id' })
+  case 'MongoServerError':
+    if (error.message.includes('E11000 duplicate key error') && error.keyPattern?.username) {
+      return response.status(400).json({ error: 'username must be unique' })
+    }
   }
 
   next(error)
