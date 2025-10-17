@@ -24,9 +24,29 @@ router.post('/', requireAuthenticated, async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
-router.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id)
-  response.status(204).end()
+router.delete('/:id', requireAuthenticated, async (request, response) => {
+  const user = request.user
+
+  const blogIdToDelete = request.params.id
+  const blog = await Blog.findById(blogIdToDelete)
+  if (!blog) {
+    return response.status(404).end({ error: 'blog not found' })
+  }
+
+  const currentUserId = user._id.toString()
+  const creatorId = blog.user.toString()
+  const isCreator = currentUserId && (currentUserId === creatorId)
+
+  if (!isCreator) {
+    return response.status(403).json({ error: 'forbidden' })
+  }
+
+  await blog.deleteOne()
+
+  user.blogs = user.blogs.filter(b => b.toString() !== blogIdToDelete)
+  await user.save()
+
+  return response.status(204).end()
 })
 
 router.put('/:id', async (request, response) => {

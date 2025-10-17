@@ -19,7 +19,6 @@ export async function authenticate(request, response, next) {
 
   try {
     const decodedToken = jwt.verify(token, config.SECRET)
-    console.log('Decoded token:', decodedToken)
     const user = await User.findById(decodedToken.id)
 
     if (user) {
