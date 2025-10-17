@@ -18,15 +18,17 @@ function handleSubmit() {
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit">
-    <div>
-      <label>
-        Anecdote content:
-        <input type="text" v-model="content" />
-      </label>
-      <button type="submit">Add</button>
-    </div>
-  </form>
+  <section>
+    <h2>Create new</h2>
+    <form @submit.prevent="handleSubmit">
+      <div>
+        <label>
+          <input type="text" v-model="content" />
+        </label>
+        <button type="submit">Create</button>
+      </div>
+    </form>
+  </section>
 </template>
 
 <style scoped>

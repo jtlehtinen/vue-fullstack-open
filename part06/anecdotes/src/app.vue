@@ -1,37 +1,13 @@
 <script setup>
-import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
-import Anecdote from './components/anecdote.vue'
 import AnecdoteForm from './components/anecdote-form.vue'
-import { useAnecdotesStore } from './stores/anecdotes'
-
-const anecdotesStore = useAnecdotesStore()
-const { anecdotes } = storeToRefs(anecdotesStore)
-
-const anecdotesToShow = computed(() => {
-  return anecdotes.value.toSorted((a, b) => b.votes - a.votes)
-})
-
-function handleVote(id) {
-  anecdotesStore.vote(id)
-}
+import AnecdoteList from './components/anecdote-list.vue'
 </script>
 
 <template>
   <main>
     <h1>Anecdotes</h1>
-
-    <h2>Add new</h2>
     <AnecdoteForm />
-
-    <h2>Anecdote list</h2>
-    <Anecdote
-      v-for="anecdote in anecdotesToShow"
-      :key="anecdote.id"
-      :content="anecdote.content"
-      :votes="anecdote.votes"
-      @vote="handleVote(anecdote.id)"
-    />
+    <AnecdoteList />
   </main>
 </template>
 
@@ -39,9 +15,5 @@ function handleVote(id) {
 main {
   max-width: 720px;
   margin: 0 auto;
-}
-
-button {
-  margin-right: 0.5rem;
 }
 </style>
