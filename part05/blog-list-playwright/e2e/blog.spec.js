@@ -42,5 +42,11 @@ test.describe('Blog app', () => {
       await createBlog(page, 'E2E testing with Playwright', 'Juha Lehtinen', 'http://example.com')
       await expect(page.getByText('E2E testing with Playwright Juha Lehtinen')).toBeVisible()
     })
+
+    test('a blog can be liked', async ({ page }) => {
+      await createBlog(page, 'E2E testing with Playwright', 'Juha Lehtinen', 'http://example.com')
+      await page.getByRole('button', { name: 'View' }).click()
+      await page.getByRole('button', { name: 'Like' }).click()
+    })
   })
 })
