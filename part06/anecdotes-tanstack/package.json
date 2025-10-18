@@ -1,0 +1,29 @@
+{
+  "name": "anecdotes-tanstack",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "dev:server": "json-server --watch db.json --port 3001",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@tanstack/vue-query": "^5.90.5",
+    "nanoid": "^5.1.6",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "json-server": "1.0.0-beta.3",
+    "vite": "npm:rolldown-vite@latest",
+    "vite-plugin-vue-devtools": "^8.0.2",
+    "vitest": "^3.2.4"
+  }
+}
