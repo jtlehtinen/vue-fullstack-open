@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import anecdotesService from '~/services/anecdotes.js'
+import { useNotificationsStore } from '~/stores/notifications.js'
 
 export function useAnecdotes() {
   const { data, ...rest } = useQuery({
@@ -15,10 +16,12 @@ export function useAnecdotes() {
 
 export function useCreateAnecdote() {
   const queryClient = useQueryClient()
+  const notifications = useNotificationsStore()
 
   const mutation = useMutation({
     mutationFn: anecdotesService.create,
-    onSuccess: () => {
+    onSuccess: (createdAnecdote) => {
+      notifications.info(`Anecdote "${createdAnecdote.content}" created successfully`)
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
     }
   })
@@ -28,6 +31,7 @@ export function useCreateAnecdote() {
 
 export function useVoteAnecdote() {
   const queryClient = useQueryClient()
+  const notifications = useNotificationsStore()
 
   const mutation = useMutation({
     mutationFn: async (anecdote) => {
@@ -36,7 +40,8 @@ export function useVoteAnecdote() {
         votes: anecdote.votes + 1
       })
     },
-    onSuccess: () => {
+    onSuccess: (votedAnecdote) => {
+      notifications.info(`You voted for '${votedAnecdote.content}'`)
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
     }
   })
