@@ -2,9 +2,10 @@
 import { computed } from 'vue'
 import Anecdote from './anecdote.vue'
 import { useNotificationsStore } from '~/stores/notifications'
-import { useAnecdotes } from '~/composables/anecdotes'
+import { useAnecdotes, useVoteAnecdote } from '~/composables/anecdotes'
 
 const { anecdotes } = useAnecdotes()
+const voteAnecdote = useVoteAnecdote()
 
 const notificationsStore = useNotificationsStore()
 
@@ -17,7 +18,7 @@ const anecdotesToShow = computed(() => {
 })
 
 async function handleVote(anecdote) {
-  // @TODO: ...
+  await voteAnecdote.mutateAsync(anecdote)
   notificationsStore.info(`You voted for '${anecdote.content}'`)
 }
 </script>

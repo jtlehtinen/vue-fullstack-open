@@ -25,3 +25,21 @@ export function useCreateAnecdote() {
 
   return mutation
 }
+
+export function useVoteAnecdote() {
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: async (anecdote) => {
+      return await anecdotesService.update({
+        ...anecdote,
+        votes: anecdote.votes + 1
+      })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
+    }
+  })
+
+  return mutation
+}
