@@ -1,11 +1,10 @@
 <script setup>
 import { ref } from 'vue'
+import { useAnecdotesStore } from '~/stores/anecdotes'
 
 const content = ref('')
 const author = ref('')
 const info = ref('')
-
-const emit = defineEmits(['submit'])
 
 function resetForm() {
   content.value = ''
@@ -14,7 +13,7 @@ function resetForm() {
 }
 
 function handleSubmit() {
-  emit('submit', {
+  useAnecdotesStore().create({
     content: content.value,
     author: author.value,
     info: info.value,

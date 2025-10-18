@@ -1,7 +1,9 @@
 <script setup>
-defineProps({
-  anecdotes: { type: Array, required: true }
-})
+import { storeToRefs } from 'pinia'
+import { useAnecdotesStore } from '~/stores/anecdotes'
+
+const anecdotesStore = useAnecdotesStore()
+const { anecdotes } = storeToRefs(anecdotesStore)
 </script>
 
 <template>

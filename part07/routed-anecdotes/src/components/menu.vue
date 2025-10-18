@@ -1,8 +1,12 @@
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>
+
 <template>
   <div>
-    <a href="#">anecdotes</a>
-    <a href="#">create new</a>
-    <a href="#">about</a>
+    <RouterLink to="/">anecdotes</RouterLink>
+    <RouterLink to="/create">create new</RouterLink>
+    <RouterLink to="/about">about</RouterLink>
   </div>
 </template>
 
