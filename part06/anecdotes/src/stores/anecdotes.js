@@ -1,6 +1,6 @@
-import { nanoid } from 'nanoid'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import anecdotesService from '~/services/anecdotes'
 
 export const useAnecdotesStore = defineStore('anecdotes', () => {
   const anecdotes = ref([])
@@ -9,8 +9,13 @@ export const useAnecdotesStore = defineStore('anecdotes', () => {
     anecdotes.value = []
   }
 
-  function add(anecdote) {
-    anecdotes.value = [...anecdotes.value, anecdote]
+  async function create(content) {
+    const createdAnecdote = await anecdotesService.create(content)
+    anecdotes.value = [...anecdotes.value, createdAnecdote]
+  }
+
+  async function init() {
+    store.anecdotes = await anecdotesService.getAll()
   }
 
   function vote(id) {
@@ -25,7 +30,8 @@ export const useAnecdotesStore = defineStore('anecdotes', () => {
     anecdotes,
 
     $reset,
-    add,
+    create,
+    init,
     vote,
   }
 })

@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import anecdotesService from '~/services/anecdotes'
 import { useAnecdotesStore } from '~/stores/anecdotes'
 
 const content = ref('')
@@ -13,8 +12,7 @@ async function handleSubmit() {
     return
   }
 
-  const createdAnecdote = await anecdotesService.create(contentValue)
-  anecdotesStore.add(createdAnecdote)
+  await anecdotesStore.create(contentValue)
 
   content.value = ''
 }
