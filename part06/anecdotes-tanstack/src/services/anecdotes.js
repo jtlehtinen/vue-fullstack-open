@@ -1,13 +1,24 @@
 const baseUrl = '/api/anecdotes'
 
-export async function getAll() {
-  const response = await fetch(baseUrl)
-
+async function handleResponse(response, defaultError = 'Unknown error occurred') {
   if (!response.ok) {
-    throw new Error('Failed to fetch anecdotes')
+    let errorBody
+    try {
+      errorBody = await response.json()
+    } catch {
+      errorBody = null
+    }
+
+    const message = errorBody?.error || defaultError
+    throw new Error(message)
   }
 
   return await response.json()
+}
+
+export async function getAll() {
+  const response = await fetch(baseUrl)
+  return await handleResponse(response, 'Failed to fetch anecdotes')
 }
 
 export async function create(content) {
@@ -16,12 +27,7 @@ export async function create(content) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ content, votes: 0 }),
   })
-
-  if (!response.ok) {
-    throw new Error('Failed to create anecdote')
-  }
-
-  return await response.json()
+  return await handleResponse(response)
 }
 
 export async function update(anecdote) {
@@ -31,11 +37,7 @@ export async function update(anecdote) {
     body: JSON.stringify(anecdote),
   })
 
-  if (!response.ok) {
-    throw new Error('Failed to update anecdote')
-  }
-
-  return await response.json()
+  return await handleResponse(response, 'Failed to update anecdote')
 }
 
 export default {

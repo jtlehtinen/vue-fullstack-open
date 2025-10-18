@@ -12,9 +12,10 @@ async function handleSubmit() {
     return
   }
 
-  await create.mutateAsync(contentValue)
-
-  content.value = ''
+  try {
+    await create.mutateAsync(contentValue)
+    content.value = ''
+  } catch { /* ignore */ }
 }
 </script>
 

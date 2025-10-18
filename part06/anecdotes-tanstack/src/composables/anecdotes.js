@@ -20,6 +20,10 @@ export function useCreateAnecdote() {
 
   const mutation = useMutation({
     mutationFn: anecdotesService.create,
+    onError: (error) => {
+      const message = error?.message || 'Unknown error'
+      notifications.info(message)
+    },
     onSuccess: (createdAnecdote) => {
       notifications.info(`Anecdote "${createdAnecdote.content}" created successfully`)
       queryClient.invalidateQueries({ queryKey: ['anecdotes'] })

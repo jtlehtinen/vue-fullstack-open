@@ -15,7 +15,9 @@ const anecdotesToShow = computed(() => {
 })
 
 async function handleVote(anecdote) {
-  await voteAnecdote.mutateAsync(anecdote)
+  try {
+    await voteAnecdote.mutateAsync(anecdote)
+  } catch { /* ignore */ }
 }
 </script>
 
