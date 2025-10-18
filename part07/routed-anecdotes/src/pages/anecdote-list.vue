@@ -1,5 +1,6 @@
 <script setup>
 import { storeToRefs } from 'pinia'
+import { RouterLink } from 'vue-router'
 import { useAnecdotesStore } from '~/stores/anecdotes'
 
 const anecdotesStore = useAnecdotesStore()
@@ -11,7 +12,9 @@ const { anecdotes } = storeToRefs(anecdotesStore)
     <h2>Anecdotes</h2>
     <ul>
       <li v-for="anecdote in anecdotes" :key="anecdote.id">
-        {{ anecdote.content }}
+        <RouterLink :to="`/anecdotes/${anecdote.id}`">
+          {{ anecdote.content }}
+        </RouterLink>
       </li>
     </ul>
   </div>

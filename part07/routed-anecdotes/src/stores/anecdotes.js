@@ -8,19 +8,19 @@ export const useAnecdotesStore = defineStore('anecdotes', () => {
       author: 'Jez Humble',
       info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
-      id: 1
+      id: '1'
     },
     {
       content: 'Premature optimization is the root of all evil',
       author: 'Donald Knuth',
       info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
-      id: 2
+      id: '2'
     }
   ])
 
   function create(anecdote) {
-    const id = Math.round(Math.random() * 10000)
+    const id = `${Math.round(Math.random() * 10000)}`
 
     anecdotes.value = anecdotes.value.concat({
       ...anecdote,
@@ -46,6 +46,7 @@ export const useAnecdotesStore = defineStore('anecdotes', () => {
   return {
     anecdotes,
 
+    anecdoteById,
     create,
   }
 })
