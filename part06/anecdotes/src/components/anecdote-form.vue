@@ -1,18 +1,21 @@
 <script setup>
 import { ref } from 'vue'
+import anecdotesService from '~/services/anecdotes'
 import { useAnecdotesStore } from '~/stores/anecdotes'
 
 const content = ref('')
 const anecdotesStore = useAnecdotesStore()
 
-function handleSubmit() {
+async function handleSubmit() {
   const contentValue = content.value.trim()
   if (!contentValue) {
     window.alert('Anecdote content cannot be empty')
     return
   }
 
-  anecdotesStore.add(content.value)
+  const createdAnecdote = await anecdotesService.create(contentValue)
+  anecdotesStore.add(createdAnecdote)
+
   content.value = ''
 }
 </script>
