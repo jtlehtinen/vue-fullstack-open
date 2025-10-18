@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import { useCreateAnecdote } from '~/composables/anecdotes'
 
 const content = ref('')
+const create = useCreateAnecdote()
 
 async function handleSubmit() {
   const contentValue = content.value.trim()
@@ -10,7 +12,7 @@ async function handleSubmit() {
     return
   }
 
-  // @TODO: ...
+  await create.mutateAsync(contentValue)
 
   content.value = ''
 }

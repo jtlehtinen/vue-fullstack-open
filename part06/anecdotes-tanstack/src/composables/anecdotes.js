@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/vue-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import anecdotesService from '~/services/anecdotes.js'
 
 export function useAnecdotes() {
@@ -11,4 +11,17 @@ export function useAnecdotes() {
     anecdotes: data,
     ...rest,
   }
+}
+
+export function useCreateAnecdote() {
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: anecdotesService.create,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
+    }
+  })
+
+  return mutation
 }
