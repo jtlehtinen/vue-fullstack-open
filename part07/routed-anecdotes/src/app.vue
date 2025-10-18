@@ -1,16 +1,15 @@
 <script setup>
-import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 import Footer from './components/footer.vue'
 import Menu from './components/menu.vue'
-
-const notification = ref('')
+import Nofications from './components/notifications.vue'
 </script>
 
 <template>
   <main>
     <h1>Software anecdotes</h1>
     <Menu />
+    <Nofications />
     <RouterView />
     <Footer />
   </main>

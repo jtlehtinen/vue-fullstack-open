@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { useNotificationsStore } from './notifications'
 
 export const useAnecdotesStore = defineStore('anecdotes', () => {
+  const notificationsStore = useNotificationsStore()
+
   const anecdotes = ref([
     {
       content: 'If it hurts, do it more often',
@@ -21,11 +24,11 @@ export const useAnecdotesStore = defineStore('anecdotes', () => {
 
   function create(anecdote) {
     const id = `${Math.round(Math.random() * 10000)}`
+    const createdAnecdote = { ...anecdote, votes: 0, id }
 
-    anecdotes.value = anecdotes.value.concat({
-      ...anecdote,
-      id
-    })
+    anecdotes.value = anecdotes.value.concat(createdAnecdote)
+
+    notificationsStore.info(`A new anecdote "${anecdote.content}" created!`)
   }
 
   function anecdoteById(id) {

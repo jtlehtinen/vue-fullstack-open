@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAnecdotesStore } from '~/stores/anecdotes'
+
+const router = useRouter()
 
 const content = ref('')
 const author = ref('')
@@ -20,6 +23,7 @@ function handleSubmit() {
     votes: 0
   })
   resetForm()
+  router.push('/')
 }
 </script>
 
