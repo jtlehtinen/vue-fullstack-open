@@ -14,8 +14,8 @@ const anecdotesToShow = computed(() => {
   return anecdotes.value.toSorted((a, b) => b.votes - a.votes)
 })
 
-function handleVote(anecdote) {
-  anecdotesStore.vote(anecdote.id)
+async function handleVote(anecdote) {
+  await anecdotesStore.vote(anecdote.id)
   notificationsStore.info(`You voted for '${anecdote.content}'`)
 }
 </script>

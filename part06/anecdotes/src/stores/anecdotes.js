@@ -15,14 +15,20 @@ export const useAnecdotesStore = defineStore('anecdotes', () => {
   }
 
   async function init() {
-    store.anecdotes = await anecdotesService.getAll()
+    anecdotes.value = await anecdotesService.getAll()
   }
 
-  function vote(id) {
+  async function vote(id) {
+    const anecdoteToVote = anecdotes.value.find(a => a.id === id)
+    if (!anecdoteToVote) throw new Error('Anecdote not found')
+
+    const updatedAnecdote = await anecdotesService.update({
+      ...anecdoteToVote,
+      votes: anecdoteToVote.votes + 1,
+    })
+
     anecdotes.value = anecdotes.value.map(anecdote =>
-      anecdote.id === id
-        ? { ...anecdote, votes: anecdote.votes + 1 }
-        : anecdote
+      anecdote.id === id ? updatedAnecdote : anecdote
     )
   }
 
