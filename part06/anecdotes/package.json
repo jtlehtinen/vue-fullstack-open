@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:server": "json-server --watch db.json --port 3001",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest"
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
+    "json-server": "1.0.0-beta.3",
     "vite": "npm:rolldown-vite@latest",
     "vite-plugin-vue-devtools": "^8.0.2",
     "vitest": "^3.2.4"
